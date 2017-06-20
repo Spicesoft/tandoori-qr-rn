@@ -50,7 +50,7 @@ export default class QRScanner extends Component {
 
   extractServiceIDFromURL(url) {
     const results = serviceRegExp.exec(url);
-    return results[1]; // first capture group
+    return results && results[1]; // first capture group
   }
 
   showError() {
