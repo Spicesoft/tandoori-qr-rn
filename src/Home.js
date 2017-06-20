@@ -14,13 +14,17 @@ export default class Home extends React.Component {
 
   render() {
     const {navigate} = this.props.navigation;
-    
+
     return (
       <View>
         <Text>Welcome to the react-native workshop!</Text>
         <Button
           title="Scan a QR code"
           onPress={() => navigate("QRScanner")}
+        />
+        <Button
+          title="Shortcut service id=123"
+          onPress={() => navigate("Service", {id: 123})}
         />
       </View>
     );
