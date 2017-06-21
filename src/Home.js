@@ -25,13 +25,8 @@ export default class Home extends React.Component {
           onPress={() => navigate("QRScanner")}
         />
         <Button
-          title="Shortcut service id=123"
-          onPress={() => navigate("Service", {id: 123})}
-        />
-
-        <Button
-          title="API test"
-          onPress={() => API.getAvailabilitiesForService(5).then(cat => Alert.alert("dispo", JSON.stringify(cat)))}
+          title="Shortcut service id=5"
+          onPress={() => navigate("Service", {id: 5})}
         />
       </View>
     );
