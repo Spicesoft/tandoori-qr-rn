@@ -17,7 +17,7 @@ import {
 import withRequest from "./hoc/withRequest";
 
 import API from "./API";
-import CurrentReservation from "./CurrentReservation"
+import CurrentReservations from "./CurrentReservations"
 import IncomingReservations from "./IncomingReservations"
 
 
@@ -70,11 +70,11 @@ class Home extends React.Component {
                 </Card>
                 <Card>
                     <CardItem>
-                        <CurrentReservation reservation={{}} />
+                        <CurrentReservations reservations={this.props.currentReservations} />
                     </CardItem>
                 </Card>
                 <IncomingReservations
-                    reservations={this.props.reservations}
+                    reservations={this.props.incomingReservations}
                     onItemPressed={this.goToReservationDetails.bind(this)}
                 />
               </Content>
@@ -106,7 +106,8 @@ export default withRequest(Home, {
     requestProps(props) {
         return API.getReservations()
             .then(data => ({
-                reservations: data
+                currentReservations: data.currentReservations,
+                incomingReservations: data.incomingReservations
             }));
     }
 })

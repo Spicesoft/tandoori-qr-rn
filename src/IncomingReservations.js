@@ -32,7 +32,7 @@ export default class IncomingReservations extends React.Component {
     }
 
     renderReservations() {
-        const {reservations} = this.props;
+        const reservations = this.props.incomingReservations;
         if (!reservations) {
             return <CardItem style={styles.itemWSpinner}><Spinner color='rgb(70, 130, 180)' /></CardItem>;
         }
