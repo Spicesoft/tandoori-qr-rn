@@ -1,7 +1,7 @@
 import moment from "moment";
 import qs from "query-string";
 
-const ACCOUNT_ID = 5;
+const ACCOUNT_ID = 6;
 const TOKEN = "9db9256dcc304764f38545a5c221e886a24b0911";
 const DOMAIN = "neo-yolo.tandoori.pro";
 const API_ROOT = `https://${DOMAIN}/api/v1`;
@@ -101,14 +101,14 @@ const API = {
     },
 
     createReservation(id, range) {
-        request({
-                method: "POST",
-                url: `${API_ROOT}/accounts/${ACCOUNT_ID}/reservation/`,
-                body: {
-                    ...range,
-                    service: id
-                }
-            })
+        return request({
+            method: "POST",
+            url: `${API_ROOT}/accounts/${ACCOUNT_ID}/reservation/`,
+            body: {
+                ...range,
+                service: id
+            }
+        })
             .then(response => response.json());
     }
 

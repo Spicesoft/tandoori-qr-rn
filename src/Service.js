@@ -40,29 +40,37 @@ class ServiceWithoutRequest extends Component {
         ranges: PropTypes.array
     };
 
-    makeReservation(range) {
+    confirmReservation(range) {
         Alert.alert(
             'Confirm Reservation',
             'My Alert Msg',
             [
                 {
                      text: 'Cancel',
-                     onPress: () => console.log('Cancel Pressed'),
                      style: 'cancel'
                  }, {
                      text: 'OK',
                      onPress: () => {
-                         Toast.show({
-                             text: "Hello",
-                             position: "bottom",
-                             buttonText: "Okay",
-                             duration: 10000,
-
-                         });
-                         this.props.navigation.navigate("Home");
+                         this.makeReservation(range);
                      }
                  },
             ], { cancelable: true } );
+    }
+
+    makeReservation(range) {
+        API.createReservation(this.props.id, range)
+           .then(() => {
+               Toast.show({
+                   text: "Reservation success",
+                   position: "bottom",
+                   buttonText: "Okay",
+                   duration: 2000,
+
+               });
+               this.props.navigation.navigate("Home");
+           })
+           .catch((r) => { Alert.alert("error", JSON.stringify(r))});
+
     }
 
     render() {
@@ -121,7 +129,7 @@ class ServiceWithoutRequest extends Component {
                       {this.props.ranges.map(range =>
                           <Button block
                                   style={{margin: 5}} key={range.to_datetime.format()}
-                                  onPress={() => this.makeReservation(range)}
+                                  onPress={() => this.confirmReservation(range)}
                           >
                             <Text>{`Until ${range.to_datetime.format("LT")}`}</Text>
                           </Button>
@@ -141,11 +149,6 @@ class ServiceWithoutRequest extends Component {
         );
     }
 
-    createReservation(range) {
-        API.createReservation(this.props.id, range)
-            .then(() => { /* TODO success toast + navigate to home */ })
-            .catch(() => { /* Alert error */ });
-    }
 }
 
 const styles = {
