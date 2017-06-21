@@ -13,28 +13,28 @@ import {
 import {View} from "react-native";
 import moment from "moment";
 
-export default class IncomingReservations extends React.Component {
+export default class CurrentReservations extends React.Component {
 
     static PropTypes = {
-        reservations: PropTypes.array,
+        reservation: PropTypes.array,
         onItemPressed: PropTypes.function
     };
 
     render() {
-        return (
-            <Card>
+      return (
+          <Card>
               <CardItem>
-                  <Text>Incoming reservations</Text>
+                  <Text>Current reservations</Text>
               </CardItem>
               {this.renderReservations()}
-            </Card>
-        );
+          </Card>
+      );
     }
 
     renderReservations() {
         const {reservations} = this.props;
         if (!reservations) {
-            return <CardItem style={styles.itemWSpinner}><Spinner color='rgb(70, 130, 180)' /></CardItem>;
+            return <CardItem style={styles.itemWSpinner}><Spinner color='blue' /></CardItem>;
         }
         return reservations.map(reservation => {
             if (reservation.status === "A") {
@@ -44,18 +44,18 @@ export default class IncomingReservations extends React.Component {
                         onPress={() => this.props.onItemPressed(reservation)}
                         key={reservation.pk}
                     >
-                      <Left>
-                        <Text style={styles.marginRight}>{reservation.service.name}</Text>
-                      </Left>
-                      <Body>
-                        {this.renderReservationTime(
-                             reservation.from_datetime,
-                             reservation.to_datetime
-                        )}
-                      </Body>
-                      <Right>
-                        <Icon name="arrow-forward" />
-                      </Right>
+                        <Left>
+                            <Text style={styles.marginRight}>{reservation.service.name}</Text>
+                        </Left>
+                        <Body>
+                            {this.renderReservationTime(
+                                reservation.from_datetime,
+                                reservation.to_datetime
+                            )}
+                        </Body>
+                        <Right>
+                            <Icon name="arrow-forward" />
+                        </Right>
                     </CardItem>
                 );
             }

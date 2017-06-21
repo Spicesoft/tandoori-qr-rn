@@ -17,7 +17,7 @@ import {
 import withRequest from "./hoc/withRequest";
 
 import API from "./API";
-import CurrentReservation from "./CurrentReservation"
+import CurrentReservations from "./CurrentReservations"
 import IncomingReservations from "./IncomingReservations"
 
 
@@ -29,7 +29,8 @@ class Home extends React.Component {
 
     static propTypes = {
         navigation: PropTypes.object,
-        reservations: PropTypes.array
+        currentReservations: PropTypes.array,
+        incomingReservations: PropTypes.array
     };
 
     render() {
@@ -68,13 +69,12 @@ class Home extends React.Component {
                     </Right>
                   </CardItem>
                 </Card>
-                <Card>
-                    <CardItem>
-                        <CurrentReservation reservation={{}} />
-                    </CardItem>
-                </Card>
-                <IncomingReservations
-                    reservations={this.props.reservations}
+                <CurrentReservations 
+                    reservations={this.props.currentReservations}
+                    onItemPressed={this.goToReservationDetails.bind(this)}
+                />
+                <IncomingReservations 
+                    reservations={this.props.incomingReservations}
                     onItemPressed={this.goToReservationDetails.bind(this)}
                 />
               </Content>
@@ -105,8 +105,11 @@ const styles = {
 export default withRequest(Home, {
     requestProps(props) {
         return API.getReservations()
-            .then(data => ({
-                reservations: data
-            }));
+            .then(data => {
+                return {
+                    currentReservations: data.currentReservations,
+                    incomingReservations: data.incomingReservations
+                }
+            });
     }
 })

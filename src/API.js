@@ -77,8 +77,24 @@ const API = {
             url: `${API_ROOT}/reservations/active/?${query}`
         })
         .then(response => response.json())
-        .catch(response => {
-            console.error(response);
+        .then(response => {
+            const currentReservations = [];
+            const incomingReservations = [];
+            response.forEach(reservation => {
+                if (moment(reservation.from_datetime) <= moment()) {
+                    currentReservations.push(reservation);
+                } else {
+                    incomingReservations.push(reservation);
+                }
+            });
+
+            return {
+                "currentReservations": currentReservations,
+                "incomingReservations": incomingReservations
+            }
+        })
+        .catch(err => {
+            console.error(err);
         });
     }
 
