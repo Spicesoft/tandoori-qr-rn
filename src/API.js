@@ -11,7 +11,8 @@ function request(options) {
         fetch({
                 method: "GET",
                 headers: {
-                    Authorization: `Token ${TOKEN}`
+                    "Authorization": `Token ${TOKEN}`,
+                    "Content-Type": "application/json"
                 },
                 ...options,
                 body: JSON.stringify(options.body)
@@ -36,7 +37,7 @@ const API = {
 
     getServiceDetails(id) {
         return request({
-                url: `${API_ROOT}/services/${id}`,
+                url: `${API_ROOT}/services/${id}/`,
             })
             .then(response => response.json())
             .catch(response => {
@@ -51,7 +52,7 @@ const API = {
             to_datetime: moment().add(4, "hours").format()
         });
         return request({
-                url: `${API_ROOT}/availabilities/ranges?${query}`
+                url: `${API_ROOT}/availabilities/ranges/?${query}`
             })
             .then(response => response.json())
             .then(response => {
