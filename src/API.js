@@ -19,7 +19,7 @@ function request(options) {
 }
 
 const API = {
-  
+
     login(username, password) {
         // TODO
         return Promise.resolve(TOKEN);
@@ -57,7 +57,7 @@ const API = {
     getReservations() {
         const query = qs.stringify({
             from_datetime: moment().format(),
-            to_datetime: moment().add(4, "hours").format()
+            to_datetime: moment().add(1, "day").format()
         });
         return request({
             url: `${API_ROOT}/reservations/active/?${query}`

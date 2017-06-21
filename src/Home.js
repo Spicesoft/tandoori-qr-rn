@@ -73,11 +73,7 @@ class Home extends React.Component {
                         <CurrentReservation reservation={{}} />
                     </CardItem>
                 </Card>
-                <Card>
-                    <CardItem>
-                        <IncomingReservations reservations={this.props.reservations} />
-                    </CardItem>
-                </Card>
+                <IncomingReservations reservations={this.props.reservations} />
               </Content>
             </Container>
         );
