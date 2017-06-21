@@ -1,13 +1,18 @@
 import React, {Component, PropTypes} from "react";
 import {
+    Body,
     Button,
     Card,
     CardItem,
+    Col,
     Container,
     Content,
+    Grid,
+    Left,
     Icon,
     Right,
-    Text
+    Text,
+    Thumbnail
 } from "native-base";
 import {
     Image,
@@ -38,46 +43,47 @@ class Home extends React.Component {
 
         return (
             <Container style={styles.cont}>
-              <Content>
-                <View style={styles.view}>
-                  <Image
-                    style={styles.img}
-                    resizeMode="contain"
-                    source={require("./img/coworkio.png")}
-                  />
-                </View>
-                <Card>
-                  <CardItem header>
-                    <Text>Welcome to the react-native workshop!</Text>
-                  </CardItem>
-                  <CardItem
-                    button
-                    onPress={() => navigate("QRScanner")}
-                  >
-                    <Text>Scan a QR code</Text>
-                    <Right>
-                      <Icon name="arrow-forward" />
-                    </Right>
-                  </CardItem>
-                  <CardItem
-                    button
-                    onPress={() => navigate("Service", {id: 68})}
-                  >
-                    <Text>Shortcut service id=68</Text>
-                    <Right>
-                      <Icon name="arrow-forward" />
-                    </Right>
-                  </CardItem>
-                </Card>
-                <CurrentReservations
-                    reservations={this.props.currentReservations}
-                    onItemPressed={this.goToReservationDetails.bind(this)}
-                />
-                <IncomingReservations
-                    reservations={this.props.incomingReservations}
-                    onItemPressed={this.goToReservationDetails.bind(this)}
-                />
-              </Content>
+                <Content>
+                    <Card>
+                        <CardItem header>
+                            <Left>
+                                <Thumbnail
+                                    source={require("./img/logo.png")}
+                                />
+                                <Body>
+                                    <Text>Welcome to the react-native workshop!</Text>
+                                    <Text note>Let's get you a place</Text>
+                                </Body>
+                            </Left>
+                        </CardItem>
+                        <CardItem>
+                            <Left>
+                                <Button
+                                    button
+                                    onPress={() => navigate("QRScanner")}
+                                >
+                                    <Text>Scan a QR code</Text>
+                                </Button>
+                            </Left>
+                            <Right>
+                                <Button
+                                    transparent
+                                    onPress={() => navigate("Service", {id: 68})}
+                                >
+                                    <Text>Shortcut service id=68</Text>
+                                </Button>
+                            </Right>
+                        </CardItem>
+                    </Card>
+                    <CurrentReservations
+                        reservations={this.props.currentReservations}
+                        onItemPressed={this.goToReservationDetails.bind(this)}
+                    />
+                    <IncomingReservations
+                        reservations={this.props.incomingReservations}
+                        onItemPressed={this.goToReservationDetails.bind(this)}
+                    />
+                </Content>
             </Container>
         );
     }
@@ -90,7 +96,6 @@ class Home extends React.Component {
 
 const styles = {
     cont: {
-        padding: 15,
         backgroundColor: "#FFFFFF"
     },
     img: {

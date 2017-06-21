@@ -2,11 +2,9 @@ import React, {Component, PropTypes as T} from "react";
 import moment from "moment";
 import {
     Body,
-    Button,
     Container,
     Card,
     CardItem,
-    Left,
     Icon,
     Text,
     H3
@@ -52,17 +50,6 @@ class ReservationDetailComponent extends Component {
                 </CardItem>
                 <CardItem>
                   <Text>To {moment(reservation.to_datetime).format("LLLL")}</Text>
-                </CardItem>
-                <CardItem>
-                    <Left>
-                        <Button
-                            transparent
-                            onPress={() => navigate("Home")}
-                        >
-                            <Icon name="arrow-back" />
-                            <Text>Go home</Text>
-                        </Button>
-                    </Left>
                 </CardItem>
             </Card>
         );
