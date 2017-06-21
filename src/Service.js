@@ -3,6 +3,7 @@ import React, {Component, PropTypes} from "react";
 import moment from "moment";
 
 import {
+    Alert,
     Image,
     StyleSheet,
     View, ScrollView
@@ -37,6 +38,10 @@ class ServiceWithoutRequest extends Component {
         service: PropTypes.object,
         ranges: PropTypes.array
     };
+
+    makeReservation(range) {
+        Alert.alert("test");
+    }
 
     render() {
         if (this.props.loading) {
@@ -91,13 +96,14 @@ class ServiceWithoutRequest extends Component {
                   </CardItem>
                   <CardItem>
                     <View style={{flex: 1}}>
-                      {this.props.ranges.map(function(range, i) {
-                           return (
-                               <Button block style={{margin: 5}} key={range.to_datetime.format()}>
-                                 <Text>{`Until ${range.to_datetime.format("LT")}`}</Text>
-                               </Button>
-                           )
-                       })}
+                      {this.props.ranges.map(range =>
+                          <Button block
+                                  style={{margin: 5}} key={range.to_datetime.format()}
+                                  onPress={() => this.makeReservation(range)}
+                          >
+                            <Text>{`Until ${range.to_datetime.format("LT")}`}</Text>
+                          </Button>
+                      )}
                     </View>
                   </CardItem>
                 </Card>
