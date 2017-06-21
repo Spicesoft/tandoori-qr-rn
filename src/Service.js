@@ -98,7 +98,7 @@ class Service extends Component {
                     <View style={{flex: 1}}>
                       {this.props.ranges.map(function(range, i) {
                            return (
-                               <Button block style={{margin: 5}}>
+                               <Button block style={{margin: 5}} key={range.to_datetime.format()}>
                                  <Text>{`Until ${range.to_datetime.format("LT")}`}</Text>
                                </Button>
                            )
