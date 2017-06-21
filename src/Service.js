@@ -1,19 +1,37 @@
 import React, {Component, PropTypes} from "react";
+
 import moment from "moment";
+
 import {
     Image,
     StyleSheet,
-    View,
+    View, ScrollView
 } from "react-native";
-import { 
+
+import {
+    Button,
+    Container,
+    Content,
+    Card,
+    CardItem,
     Text,
-    H1 
+    Spinner,
+    Picker,
+    H1, H2, H3
 } from 'native-base';
 
 import API from "./API";
+
 import withRequest from "./hoc/withRequest";
 
+/* import { Bubbles, DoubleBounce, Bars, Pulse } from 'react-native-loader';*/
+
 class Service extends Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {}
+    }
 
     static navigationOptions = {
         title: "Service",
@@ -29,50 +47,123 @@ class Service extends Component {
         if (this.props.loading) {
             return this.renderLoader();
         }
+
         const {service} = this.props;
         const image = service.images[0]; // TODO default image
         const imageSource = {
             uri: image.medium_image_url
         };
+
         return (
-            <View style={styles.root}>
+            <Container style={styles.root}>
+              <Content>
                 <View style={styles.imageContainer}>
-                    <Image source={imageSource} resizeMode="cover" style={styles.image} />
+                  <Image source={imageSource} resizeMode="cover" style={styles.image} />
                 </View>
                 <View style={styles.titleContainer}>
-                    <H1 style={styles.title}>{service.name}</H1>
+                  <H1 style={styles.title}>{service.name}</H1>
                 </View>
-                <Text>{JSON.stringify(this.props.ranges, null, 2)}</Text>
-            </View>
+
+                <View style={styles.cont}>
+                  {this.renderServiceStatus()}
+                </View>
+              </Content>
+            </Container>
+
         );
+    }
+
+    renderServiceStatus() {
+        dispo = ("ranges" in this.props && this.props.ranges.length != 0);
+
+        if (!dispo) {
+            return (
+                <Card>
+                  <CardItem>
+                    <Text>
+                      This service is unavailable for the moment.{"\n"}
+                      {/* Next availability at : {"\n"} */}
+                      {/* XXX:XXX */}
+                    </Text>
+                  </CardItem>
+                </Card>
+            );
+        } else {
+            return (
+                <Card>
+                  <CardItem>
+                    <H3>Book the service</H3>
+                  </CardItem>
+                  <CardItem>
+                    <View style={{flex: 1}}>
+                      {this.props.ranges.map(function(range, i) {
+                           return (
+                               <Button block style={{margin: 5}}>
+                                 <Text>{`Until ${range.to_datetime.format("LT")}`}</Text>
+                               </Button>
+                           )
+                       })}
+                    </View>
+                  </CardItem>
+                </Card>
+            )
+        }
     }
 
     renderLoader() {
         return (
-            <View>
-              <Text>Loading...</Text>
+            <View style={styles.loadingRoot}>
+              <Spinner color="rgb(70, 130, 180)" />
             </View>
         );
     }
 }
 
-const styles = StyleSheet.create({
-    root: {
-        flexDirection: "column"
+const styles = {
+    cont: {
+        padding: 15,
     },
-    imageContainer: {   
+
+    root: {
+        flexDirection: "column",
+        backgroundColor: "#FFFFFF"
+    },
+
+    imageContainer: {
         flexDirection: "row"
     },
+
     image: {
         height: 150,
         flex: 1
     },
+
     titleContainer: {
         alignItems: "center",
         padding: 5,
-        backgroundColor: "#bada55"
+        backgroundColor: "rgb(70, 130, 180)",
+    },
+
+    title: {
+        fontWeight: "bold",
+        color: "white"
+    },
+
+    loadingRoot: {
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
+        flex: 1
+    },
+
+    card: {
+        backgroundColor: "white",
+        margin: 10,
+        padding: 10,
+        borderWidth: 1
     }
-});
+
+};
 
 function extractRanges(availabilities) {
     return [{
@@ -89,6 +180,7 @@ function extractRanges(availabilities) {
 export default withRequest(Service, {
     requestProps(props) {
         const {id} = props.navigation.state.params;
+
         return Promise
             .all([
                 API.getServiceDetails(id),
@@ -98,5 +190,5 @@ export default withRequest(Service, {
                 service: service,
                 ranges: extractRanges(availabilities)
             }));
-  }
+    }
 })
