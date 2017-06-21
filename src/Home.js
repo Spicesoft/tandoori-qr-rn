@@ -15,6 +15,8 @@ import {
 } from "react-native";
 
 import API from "./API";
+import CurrentReservation from "./CurrentReservation"
+import IncomingReservations from "./IncomingReservations"
 
 export default class Home extends React.Component {
 
@@ -59,24 +61,18 @@ export default class Home extends React.Component {
                   </CardItem>
                 </Card>
                 <Card>
-                  {this.renderReservation()}
+                    <CardItem>
+                        <CurrentReservation reservation={{}} />
+                    </CardItem>
+                </Card>
+                <Card>
+                    <CardItem>
+                        <IncomingReservations reservations={[]} />
+                    </CardItem>
                 </Card>
               </Content>
             </Container>
         );
-    }
-
-    renderReservation(reservationId) {
-        if (reservationId) {
-            return (
-                <CardItem>{reservationId}</CardItem>
-            );
-        }
-        return (
-            <CardItem>
-              <Text>You don't have any reservation yet, you fool !</Text>
-            </CardItem>
-        )
     }
 
 }
