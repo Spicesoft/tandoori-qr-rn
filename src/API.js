@@ -7,41 +7,40 @@ const API_ROOT = `https://${DOMAIN}/api/v1`;
 
 
 function request(options) {
-  return fetch({
+    return fetch({
         method: "GET",
         headers: {
-          Authorization: `Token ${TOKEN}`
+            Authorization: `Token ${TOKEN}`
         },
         ...options,
         body: JSON.stringify(options.body)
-      })
-      .then(response => response.json());
+    })
+    .then(response => response.json());
 }
 
 const API = {
-  
-  login(username, password) {
-    // TODO
-    return Promise.resolve(TOKEN);
-  },
 
-  getAvailabilitiesForService(serviceID) {
-    const query = qs.stringify({
-      service: serviceID,
-      from_datetime: moment().format(),
-      to_datetime: moment().add(4, "hours").format()
-    });
-    return request({
-        url: `${API_ROOT}/availabilities/ranges?${query}`
-      })
-      .then(response => {
-        return response;
-      })
-      .catch(err => {
-        console.error(err);
-      });
-  }
+    login(username, password) {
+        // TODO
+        return Promise.resolve(TOKEN);
+    },
 
+    getAvailabilitiesForService(serviceID) {
+        const query = qs.stringify({
+            service: serviceID,
+            from_datetime: moment().format(),
+            to_datetime: moment().add(4, "hours").format()
+        });
+        return request({
+            url: `${API_ROOT}/availabilities/ranges?${query}`
+        })
+        .then(response => {
+            return response;
+        })
+        .catch(err => {
+            console.error(err);
+        });
+    }
 };
 
 export default API;
