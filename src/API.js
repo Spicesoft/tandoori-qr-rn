@@ -47,6 +47,16 @@ const API = {
             });
     },
 
+    getCenterDetails(centerID) {
+        return request({
+            url: `${API_ROOT}/centers/${centerID}/`,
+        })
+        .then(response => response.json())
+        .catch(response => {
+            console.error(response);
+        });
+    },
+
     getAvailabilityRangesForService(serviceID) {
         const query = qs.stringify({
             service: serviceID,

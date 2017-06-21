@@ -202,14 +202,21 @@ function isAvailable(availabilityRanges, start, end) {
         const {lower, upper} = availabilityRanges[i];
         const safeLower = lower || start; // null means -infinity so start as a lower bound is fine
         const safeUpper = upper || end;   // same thing
-        if (safeLower <= start && end <= safeUpper) {
-            return true;
-        }
+        return (safeLower <= start && end <= safeUpper);
     }
     return false;
 }
 
-function extractRanges(availabilityRanges) {
+function insideOpeningHours(start, end, centerOpeningHours) {
+    const dayOfWeek = start.day() - 1;
+    // TODO take care of center timezone
+    const openingHours = centerOpeningHours[dayOfWeek];
+    opening = moment(openingHours["opening_time"], "HH:mm:ss");
+    closing = moment(openingHours["closing_time"], "HH:mm:ss");
+    return (opening <= start && end <= closing);
+}
+
+function extractRanges(availabilityRanges, openingHours) {
     const nowFloored = moment();
     if (nowFloored.minutes() < 30) {
         nowFloored.startOf("hour");
@@ -223,8 +230,9 @@ function extractRanges(availabilityRanges) {
     const nextHour = moment(start).add(60, "minutes");
     const nextTwoHours = moment(start).add(120, "minutes");
     const ranges = [];
+
     [nextHalfHour, nextHour, nextTwoHours].forEach(end => {
-        if (isAvailable(availabilityRanges, start, end)) {
+        if (isAvailable(availabilityRanges, start, end) && insideOpeningHours(start, end, openingHours)) {
             ranges.push({
                 from_datetime: start,
                 to_datetime: end
@@ -242,10 +250,16 @@ const Service = withRequest(ServiceWithoutRequest, {
                 API.getServiceDetails(id),
                 API.getAvailabilityRangesForService(id)
             ])
-            .then(([service, availabilityRanges]) => ({
-                service: service,
-                ranges: extractRanges(availabilityRanges)
-            }));
+            .then(([service, availabilityRanges]) => {
+                return API.getCenterDetails(service.center_pk)
+                          .then(center => {
+                              const centerOpeningHours = center["opening_hours"];
+                              return {
+                                  service: service,
+                                  ranges: extractRanges(availabilityRanges, centerOpeningHours)
+                              }
+                          });
+            });
   }
 });
 
