@@ -22,8 +22,9 @@ import {
 import withRequest from "./hoc/withRequest";
 
 import API from "./API";
-import CurrentReservations from "./CurrentReservations"
-import IncomingReservations from "./IncomingReservations"
+import CurrentReservations from "./CurrentReservations";
+import IncomingReservations from "./IncomingReservations";
+import ReservationDetail from "./ReservationDetail";
 
 
 class Home extends React.Component {
@@ -75,6 +76,16 @@ class Home extends React.Component {
                             </Right>
                         </CardItem>
                     </Card>
+                    <Card>
+                        <CardItem header>
+                            <Text>Your first reservation for today</Text>
+                        </CardItem>
+                        <CardItem>
+                            <ReservationDetail
+                                reservation={this.getFirstCurrentReservation()}
+                            />
+                        </CardItem>
+                    </Card>
                     <CurrentReservations
                         reservations={this.props.currentReservations}
                         onItemPressed={this.goToReservationDetails.bind(this)}
@@ -90,6 +101,10 @@ class Home extends React.Component {
 
     goToReservationDetails(reservation) {
         return this.props.navigation.navigate("ReservationDetail", {reservation: reservation});
+    }
+
+    getFirstCurrentReservation() {
+        return this.props.currentReservations ? this.props.currentReservations[0] : {};
     }
 
 }

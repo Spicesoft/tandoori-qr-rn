@@ -1,6 +1,7 @@
 import React from "react";
 import {
     Body,
+    Card,
     CardItem,
     Icon,
     Left,
@@ -18,12 +19,11 @@ export default class ReservationList extends React.Component {
     };
 
     render() {
-        return <Body>{this.renderReservations()}</Body>;
+        return <Card>{this.renderReservations()}</Card>;
     }
 
     renderReservations() {
         const {reservations} = this.props;
-        console.log(reservations);
         if (!reservations) {
             return <CardItem style={styles.itemWSpinner}><Spinner color='rgb(70, 130, 180)' /></CardItem>;
         }
@@ -36,7 +36,7 @@ export default class ReservationList extends React.Component {
                         key={reservation.pk}
                     >
                       <Left>
-                        <Text style={styles.marginRight}>{reservation.service.name}</Text>
+                        <Text style={styles.marginRight}>{reservation.service.type.name}</Text>
                       </Left>
                       <Body>
                         {this.renderReservationTime(

@@ -1,57 +1,55 @@
 import React, {Component, PropTypes as T} from "react";
 import moment from "moment";
 import {
+    Button,
     Body,
-    Container,
     Card,
     CardItem,
+    Container,
     Icon,
+    Left,
+    Right,
+    Spinner,
     Text,
     H3
 } from "native-base";
 import {
-    Image
+    Image,
+    View
 } from "react-native";
 import API from "./API.js";
 import withRequest from "./hoc/withRequest";
 
 class ReservationDetailComponent extends Component {
 
-    static navigationOptions = {
-        title: "ReservationDetail"
-    };
     static PropTypes = {
-        navigation: T.object.isRequired,
-        service: T.object.isRequired,
-    }
+        reservation: T.object.isRequired
+    };
 
     render() {
-        const {reservation} = this.props.navigation.state.params;
-        const {navigate} = this.props.navigation;
+        const reservation = this.props.reservation;
+        if (!reservation.service) {
+            return <CardItem style={styles.itemWSpinner}><Spinner color='rgb(70, 130, 180)' /></CardItem>;
+        }
         return (
-            <Card style={{flex: 0}}>
-                <CardItem header>
-                  <H3>{reservation.service.type.name}</H3>
-                </CardItem>
-                <CardItem>
-                    <Body style={styles.imgContainer}>
-                        <Image
-                            source={this.getImageSource()}
-                            style={styles.img}
-                            resizeMode="cover"
-                        />
-                    </Body>
-                </CardItem>
-                <CardItem>
-                    {this.renderServiceDescription()}
-                </CardItem>
-                <CardItem>
-                  <Text>From {moment(reservation.from_datetime).format("LLLL")}</Text>
-                </CardItem>
-                <CardItem>
-                  <Text>To {moment(reservation.to_datetime).format("LLLL")}</Text>
-                </CardItem>
-            </Card>
+            <Body style={{flex: 1}}>
+                <Body style={styles.imgContainer}>
+                    <Image
+                        source={this.getImageSource()}
+                        style={styles.img}
+                        resizeMode="cover"
+                    />
+                </Body>
+                {this.renderServiceDescription()}
+                <Text style={styles.text}>{reservation.service.type.name}</Text>
+                <Text style={styles.text} note>From - {moment(reservation.from_datetime).format("LLLL")}</Text>
+                <Text style={styles.text} note>To - {moment(reservation.to_datetime).format("LLLL")}</Text>
+                <Button
+                    transparent
+                >
+                    <Text>See details</Text>
+                </Button>
+            </Body>
         );
     }
 
@@ -83,18 +81,28 @@ const styles = {
     },
     imgContainer: {
         flexDirection: "row"
+    },
+    itemWSpinner: {
+        flex: 1,
+        justifyContent: "center"
+    },
+    text: {
+        marginTop: 5,
+        marginBottom: 5
     }
 }
 
-
 const ReservationDetail = withRequest(ReservationDetailComponent, {
     requestProps(props) {
-        const {pk} = props.navigation.state.params.reservation.service;
-        return  API.getServiceDetails(pk)
-            .then(service => ({
-                service: service,
-            }));
-  }
+        if (props.reservation.service) {
+            const {pk} = props.reservation.service;
+            return  API.getServiceDetails(pk)
+                .then(service => ({
+                    service: service,
+                }));
+        }
+        return Promise.resolve();
+    }
 });
 
-export default ReservationDetail
+export default ReservationDetail;
