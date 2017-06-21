@@ -24,7 +24,7 @@ export default class IncomingReservations extends React.Component {
         return (
             <Card>
               <CardItem>
-                <Text>Incomming reservations</Text>
+                  <Text>Incoming reservations</Text>
               </CardItem>
               {this.renderReservations()}
             </Card>
@@ -32,7 +32,7 @@ export default class IncomingReservations extends React.Component {
     }
 
     renderReservations() {
-        const reservations = this.props.incomingReservations;
+        const {reservations} = this.props;
         if (!reservations) {
             return <CardItem style={styles.itemWSpinner}><Spinner color='rgb(70, 130, 180)' /></CardItem>;
         }
