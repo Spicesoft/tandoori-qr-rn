@@ -73,10 +73,18 @@ class Home extends React.Component {
                         <CurrentReservation reservation={{}} />
                     </CardItem>
                 </Card>
-                <IncomingReservations reservations={this.props.reservations} />
+                <IncomingReservations
+                    reservations={this.props.reservations}
+                    onItemPressed={this.goToReservationDetails.bind(this)}
+                />
               </Content>
             </Container>
         );
+    }
+
+    goToReservationDetails(reservation) {
+        console.log(reservation);
+        return this.props.navigation.navigate("ReservationDetail", {reservation: reservation});
     }
 
 }

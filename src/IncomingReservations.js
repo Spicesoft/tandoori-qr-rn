@@ -1,8 +1,11 @@
-import React, {Component} from "react";
+import React, {Component, PropTypes} from "react";
 import {
+    Body,
     Card,
     CardItem,
     Container,
+    Icon,
+    Left,
     Right,
     Text,
     Spinner
@@ -11,6 +14,11 @@ import {View} from "react-native";
 import moment from "moment";
 
 export default class IncomingReservations extends React.Component {
+
+    static PropTypes = {
+        reservations: PropTypes.array,
+        onItemPressed: PropTypes.function
+    };
 
     render() {
       return (
@@ -28,16 +36,25 @@ export default class IncomingReservations extends React.Component {
         if (!reservations) {
             return <CardItem style={styles.itemWSpinner}><Spinner color='blue' /></CardItem>;
         }
-        return reservations.map((reservation, index) => {
+        return reservations.map(reservation => {
             if (reservation.status === "A") {
                 return (
-                    <CardItem key={index}>
-                        <Text style={styles.marginRight}>{reservation.service.name}</Text>
-                        <Right>
+                    <CardItem
+                        button
+                        onPress={() => this.props.onItemPressed(reservation)}
+                        key={reservation.pk}
+                    >
+                        <Left>
+                            <Text style={styles.marginRight}>{reservation.service.name}</Text>
+                        </Left>
+                        <Body>
                             {this.renderReservationTime(
                                 reservation.from_datetime,
                                 reservation.to_datetime
                             )}
+                        </Body>
+                        <Right>
+                            <Icon name="arrow-forward" />
                         </Right>
                     </CardItem>
                 );
@@ -56,6 +73,7 @@ export default class IncomingReservations extends React.Component {
         );
     }
 }
+
 
 const styles = {
     itemWSpinner: {
