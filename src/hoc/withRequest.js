@@ -23,8 +23,6 @@ export default function withRequest(WrappedComponent, {requestProps}) {
             this.mounted = false;
         }
         render() {
-            console.log(this.props)
-            console.log(this.state.newProps)
             return (
                 <WrappedComponent
                     {...this.props}
