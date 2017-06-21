@@ -80,12 +80,12 @@ const API = {
         .then(response => {
             const currentReservations = response.map((reservation, index) => {
                 if (moment(reservation.from_datetime) <= moment()) {
-                    return response;
+                    return reservation;
                 }
             });
             const incomingReservations = response.map((reservation, index) => {
                 if (moment(reservation.from_datetime) > moment()) {
-                    return response;
+                    return reservation;
                 }
             });
             return {
