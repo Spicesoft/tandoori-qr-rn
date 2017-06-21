@@ -118,6 +118,12 @@ class ServiceWithoutRequest extends Component {
             </View>
         );
     }
+
+    createReservation(range) {
+        API.createReservation(this.props.id, range)
+            .then(() => { /* TODO success toast + navigate to home */ })
+            .catch(() => { /* Alert error */ });
+    }
 }
 
 const styles = {
@@ -195,6 +201,7 @@ function extractRanges(availabilityRanges) {
     [nextHalfHour, nextHour, nextTwoHours].forEach(end => {
         if (isAvailable(availabilityRanges, start, end)) {
             ranges.push({
+                from_datetime: start,
                 to_datetime: end
             });
         }
