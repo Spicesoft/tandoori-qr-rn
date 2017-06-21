@@ -19,7 +19,7 @@ export default class ReservationList extends React.Component {
     };
 
     render() {
-        return <Card>{this.renderReservations()}</Card>;
+        return <Body>{this.renderReservations()}</Body>;
     }
 
     renderReservations() {

@@ -32,23 +32,34 @@ class ReservationDetailComponent extends Component {
             return <CardItem style={styles.itemWSpinner}><Spinner color='rgb(70, 130, 180)' /></CardItem>;
         }
         return (
-            <Body style={{flex: 1}}>
-                <Body style={styles.imgContainer}>
+            <Body>
+                <CardItem style={styles.imgContainer}>
                     <Image
                         source={this.getImageSource()}
                         style={styles.img}
                         resizeMode="cover"
                     />
-                </Body>
+                </CardItem>
                 {this.renderServiceDescription()}
-                <Text style={styles.text}>{reservation.service.type.name}</Text>
-                <Text style={styles.text} note>From - {moment(reservation.from_datetime).format("LLLL")}</Text>
-                <Text style={styles.text} note>To - {moment(reservation.to_datetime).format("LLLL")}</Text>
-                <Button
-                    transparent
-                >
-                    <Text>See details</Text>
-                </Button>
+                <CardItem>
+                    <Text>{reservation.service.type.name}</Text>
+                </CardItem>
+                <CardItem>
+                    <Text note>From - {moment(reservation.from_datetime).format("LLLL")}</Text>
+                </CardItem>
+                <CardItem>
+                    <Text note>To - {moment(reservation.to_datetime).format("LLLL")}</Text>
+                </CardItem>
+                <CardItem>
+                    <Right>
+                        <Button
+                            transparent
+                        >
+                            <Text>See details</Text>
+                            <Icon name="arrow-forward" />
+                        </Button>
+                    </Right>
+                </CardItem>
             </Body>
         );
     }

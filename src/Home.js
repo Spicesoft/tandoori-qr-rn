@@ -80,11 +80,9 @@ class Home extends React.Component {
                         <CardItem header>
                             <Text>Your first reservation for today</Text>
                         </CardItem>
-                        <CardItem>
-                            <ReservationDetail
-                                reservation={this.getFirstCurrentReservation()}
-                            />
-                        </CardItem>
+                        <ReservationDetail
+                            reservation={this.getFirstCurrentReservation()}
+                        />
                     </Card>
                     <CurrentReservations
                         reservations={this.props.currentReservations}
