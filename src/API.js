@@ -6,6 +6,7 @@ const TOKEN = "9db9256dcc304764f38545a5c221e886a24b0911";
 const DOMAIN = "neo-yolo.tandoori.pro";
 const API_ROOT = `https://${DOMAIN}/api/v1`;
 
+import {Alert} from "react-native";
 
 function request(options) {
     return new Promise((resolve, reject) => {
@@ -15,8 +16,7 @@ function request(options) {
                     "Authorization": `Token ${TOKEN}`,
                     "Content-Type": "application/json"
                 },
-                ...options,
-                body: JSON.stringify(options.body)
+                ...options
             })
             .then(response => {
                 if ( response.status == 200 ) {
@@ -101,15 +101,20 @@ const API = {
     },
 
     createReservation(id, range) {
+        const {from_datetime, to_datetime} = range;
+        const body = new FormData();
+        body.append("from_datetime", from_datetime.format());
+        body.append("to_datetime", to_datetime.format());
+        body.append("service", id);
+        body.append("unit_id", "hh");
         return request({
             method: "POST",
             url: `${API_ROOT}/accounts/${ACCOUNT_ID}/reservation/`,
-            body: {
-                ...range,
-                service: id
-            }
+            body: body
         })
-            .then(response => response.json());
+        .then(response => response.json())
+        .catch(response => response.json())
+        .then(response => Alert.alert("err", JSON.stringify(response, null, 2)));
     }
 
 };

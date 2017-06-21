@@ -58,7 +58,7 @@ class ServiceWithoutRequest extends Component {
     }
 
     makeReservation(range) {
-        API.createReservation(this.props.id, range)
+        API.createReservation(this.props.service.pk, range)
            .then(() => {
                Toast.show({
                    text: "Reservation success",
