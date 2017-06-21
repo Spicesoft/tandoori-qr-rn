@@ -214,12 +214,19 @@ function insideOpeningHours(start, end, centerOpeningHours) {
         dayOfWeek = 6;
     }
 
-    if (!dayOfWeek in centerOpeningHours) {
+    let openingHours = undefined;
+    for (let i = 0; i < centerOpeningHours.length; i++) {
+        if (centerOpeningHours[i]["day"] == dayOfWeek) {
+            openingHours = centerOpeningHours[i];
+            break;
+        }
+    }
+
+    if (openingHours === undefined) {
         return false;
     }
 
     // TODO take care of center timezone
-    const openingHours = centerOpeningHours[dayOfWeek];
     opening = moment(openingHours["opening_time"], "HH:mm:ss");
     closing = moment(openingHours["closing_time"], "HH:mm:ss");
     return (opening <= start && end <= closing);
