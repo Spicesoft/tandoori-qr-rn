@@ -16,6 +16,7 @@ import {
     Card,
     CardItem,
     Text,
+    Toast,
     Spinner,
     Picker,
     H1, H2, H3
@@ -40,7 +41,28 @@ class ServiceWithoutRequest extends Component {
     };
 
     makeReservation(range) {
-        Alert.alert("test");
+        Alert.alert(
+            'Confirm Reservation',
+            'My Alert Msg',
+            [
+                {
+                     text: 'Cancel',
+                     onPress: () => console.log('Cancel Pressed'),
+                     style: 'cancel'
+                 }, {
+                     text: 'OK',
+                     onPress: () => {
+                         Toast.show({
+                             text: "Hello",
+                             position: "bottom",
+                             buttonText: "Okay",
+                             duration: 10000,
+
+                         });
+                         this.props.navigation.navigate("Home");
+                     }
+                 },
+            ], { cancelable: true } );
     }
 
     render() {
