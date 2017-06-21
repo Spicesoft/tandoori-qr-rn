@@ -1,8 +1,11 @@
 import React, {Component, PropTypes as T} from "react";
+import moment from "moment";
 import {
+    Container,
     Card,
     CardItem,
-    Text
+    Text,
+    H3
 } from "native-base";
 
 export default class ReservationDetail extends Component {
@@ -14,18 +17,27 @@ export default class ReservationDetail extends Component {
     render() {
         const {reservation} = this.props.navigation.state.params;
         return (
-            <Card>
+            <Container style={styles.cont}>
+              <Card>
                 <CardItem header>
-                    <Text>{reservation.service.name}</Text>
+                  <H3>{reservation.service.name}</H3>
                 </CardItem>
                 <CardItem>
-                    <Text>From {reservation.from_datetime}</Text>
+                  <Text>From {moment(reservation.from_datetime).format("LLLL")}</Text>
                 </CardItem>
                 <CardItem>
-                    <Text>To {reservation.to_datetime}</Text>
+                  <Text>To {moment(reservation.to_datetime).format("LLLL")}</Text>
                 </CardItem>
-            </Card>
+              </Card>
+            </Container>
         );
+    }
+}
+
+const styles = {
+    cont: {
+        padding: 15,
+        backgroundColor: "#FFFFFF"
     }
 }
 
