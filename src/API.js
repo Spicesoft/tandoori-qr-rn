@@ -78,16 +78,16 @@ const API = {
         })
         .then(response => response.json())
         .then(response => {
-            const currentReservations = response.map((reservation, index) => {
+            const currentReservations = [];
+            const incomingReservations = [];
+            response.forEach(reservation => {
                 if (moment(reservation.from_datetime) <= moment()) {
-                    return reservation;
+                    currentReservations.push(reservation);
+                } else {
+                    incomingReservations.push(reservation);
                 }
             });
-            const incomingReservations = response.map((reservation, index) => {
-                if (moment(reservation.from_datetime) > moment()) {
-                    return reservation;
-                }
-            });
+
             return {
                 "currentReservations": currentReservations,
                 "incomingReservations": incomingReservations
