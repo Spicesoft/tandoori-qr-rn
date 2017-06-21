@@ -7,15 +7,24 @@ const API_ROOT = `https://${DOMAIN}/api/v1`;
 
 
 function request(options) {
-    return fetch({
-            method: "GET",
-            headers: {
-                Authorization: `Token ${TOKEN}`
-            },
-            ...options,
-            body: JSON.stringify(options.body)
-        })
-        .then(response => response.json());
+    return new Promise((resolve, reject) => {
+        fetch({
+                method: "GET",
+                headers: {
+                    Authorization: `Token ${TOKEN}`
+                },
+                ...options,
+                body: JSON.stringify(options.body)
+            })
+            .then(response => {
+                if ( response.status == 200 ) {
+                    resolve(response)
+                }
+                else {
+                    reject(response)
+                }
+            });
+    })
 }
 
 const API = {
@@ -27,13 +36,11 @@ const API = {
 
     getServiceDetails(id) {
         return request({
-               url: `${API_ROOT}/services/${id}`
+                url: `${API_ROOT}/services/${id}`,
             })
-            .then(response => {
-                return response;
-            })
-            .catch(err => {
-                console.error(err);
+            .then(response => response.json())
+            .catch(response => {
+                console.error(response);
             });
     },
 
@@ -46,11 +53,9 @@ const API = {
         return request({
                 url: `${API_ROOT}/availabilities/ranges?${query}`
             })
-            .then(response => {
-                return response;
-            })
-            .catch(err => {
-                console.error(err);
+            .then(response => response.json())
+            .catch(response => {
+                console.error(response);
             });
     },
 
@@ -62,11 +67,9 @@ const API = {
         return request({
             url: `${API_ROOT}/reservations/active/?${query}`
         })
-        .then(response => {
-            return response;
-        })
-        .catch(err => {
-            console.error(err);
+        .then(response => response.json())
+        .catch(response => {
+            console.error(response);
         });
     }
 

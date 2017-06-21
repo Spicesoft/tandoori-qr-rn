@@ -26,7 +26,7 @@ import withRequest from "./hoc/withRequest";
 
 /* import { Bubbles, DoubleBounce, Bars, Pulse } from 'react-native-loader';*/
 
-class Service extends Component {
+class ServiceWithoutRequest extends Component {
 
     constructor(props) {
         super(props);
@@ -177,7 +177,7 @@ function extractRanges(availabilities) {
     }];
 }
 
-export default withRequest(Service, {
+const Service = withRequest(ServiceWithoutRequest, {
     requestProps(props) {
         const {id} = props.navigation.state.params;
 
@@ -192,3 +192,4 @@ export default withRequest(Service, {
             }));
     }
 })
+export default Service
