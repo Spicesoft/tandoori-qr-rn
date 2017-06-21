@@ -1,8 +1,11 @@
 import React, {Component, PropTypes as T} from "react";
+import moment from "moment";
 import {
+    Container,
     Card,
     CardItem,
-    Text
+    Text,
+    H3
 } from "native-base";
 import API from "./API.js";
 import withRequest from "./hoc/withRequest";
@@ -22,19 +25,26 @@ class ReservationDetailComponent extends Component {
         return (
             <Card style={{flex: 0}}>
                 <CardItem header>
-                    <Text>{reservation.service.type.name}</Text>
+                  <H3>{reservation.service.type.name}</H3>
                 </CardItem>
                 <CardItem>
-
+                  <Text>From {moment(reservation.from_datetime).format("LLLL")}</Text>
                 </CardItem>
                 <CardItem>
-                    <Text>From {reservation.from_datetime}</Text>
+                  <Text>To {moment(reservation.to_datetime).format("LLLL")}</Text>
                 </CardItem>
                 <CardItem>
                     <Text>To {reservation.to_datetime}</Text>
                 </CardItem>
             </Card>
         );
+    }
+}
+
+const styles = {
+    cont: {
+        padding: 15,
+        backgroundColor: "#FFFFFF"
     }
 }
 
