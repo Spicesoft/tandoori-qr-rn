@@ -10,10 +10,11 @@ import {Alert} from "react-native";
 
 function request(options) {
     return new Promise((resolve, reject) => {
-        fetch({
+        fetch(options.url, {
                 method: "GET",
                 headers: {
                     "Authorization": `Token ${TOKEN}`,
+                    "Accept": "application/json",
                     "Content-Type": "application/json"
                 },
                 ...options
@@ -102,19 +103,17 @@ const API = {
 
     createReservation(id, range) {
         const {from_datetime, to_datetime} = range;
-        const body = new FormData();
-        body.append("from_datetime", from_datetime.format());
-        body.append("to_datetime", to_datetime.format());
-        body.append("service", id);
-        body.append("unit_id", "hh");
         return request({
             method: "POST",
             url: `${API_ROOT}/accounts/${ACCOUNT_ID}/reservation/`,
-            body: body
+            body: JSON.stringify({
+                from_datetime: from_datetime.format(),
+                to_datetime: to_datetime.format(),
+                service: id,
+                unit_id: "hh"
+            })
         })
-        .then(response => response.json())
-        .catch(response => response.json())
-        .then(response => Alert.alert("err", JSON.stringify(response, null, 2)));
+        .then(response => response.json());
     }
 
 };
