@@ -28,11 +28,6 @@ import withRequest from "./hoc/withRequest";
 
 class ServiceWithoutRequest extends Component {
 
-    constructor(props) {
-        super(props);
-        this.state = {}
-    }
-
     static navigationOptions = {
         title: "Service",
     };
@@ -74,7 +69,7 @@ class ServiceWithoutRequest extends Component {
     }
 
     renderServiceStatus() {
-        dispo = ("ranges" in this.props && this.props.ranges.length != 0);
+        const dispo = ("ranges" in this.props && this.props.ranges.length != 0);
 
         if (!dispo) {
             return (
@@ -165,31 +160,55 @@ const styles = {
 
 };
 
-function extractRanges(availabilities) {
-    return [{
-        to_datetime: moment().add(30, "m")
-    }, {
-        to_datetime: moment().add(60, "m")
-    }, {
-        to_datetime: moment().add(90, "m")
-    }, {
-        to_datetime: moment().add(120, "m")
-    }];
+function isAvailable(availabilityRanges, start, end) {
+    for (let i = 0; i < availabilityRanges.length; i++) {
+        const {lower, upper} = availabilityRanges[i];
+        const safeLower = lower || start; // null means -infinity so start as a lower bound is fine
+        const safeUpper = upper || end;   // same thing
+        if (safeLower <= start && end <= safeUpper) {
+            return true;
+        }
+    }
+    return false;
+}
+
+function extractRanges(availabilityRanges) {
+    const nowFloored = moment();
+    if (nowFloored.minutes() < 30) {
+        nowFloored.startOf("hour");
+    }
+    else {
+        nowFloored.startOf("hour").add(30, "minutes");
+    }
+
+    const start = nowFloored;
+    const nextHalfHour = moment(start).add(30, "minutes");
+    const nextHour = moment(start).add(60, "minutes");
+    const nextTwoHours = moment(start).add(120, "minutes");
+    const ranges = [];
+    [nextHalfHour, nextHour, nextTwoHours].forEach(end => {
+        if (isAvailable(availabilityRanges, start, end)) {
+            ranges.push({
+                to_datetime: end
+            });
+        }
+    });
+    return ranges;
 }
 
 const Service = withRequest(ServiceWithoutRequest, {
     requestProps(props) {
         const {id} = props.navigation.state.params;
-
         return Promise
             .all([
                 API.getServiceDetails(id),
-                API.getAvailabilitiesForService(id)
+                API.getAvailabilityRangesForService(id)
             ])
-            .then(([service, availabilities]) => ({
+            .then(([service, availabilityRanges]) => ({
                 service: service,
-                ranges: extractRanges(availabilities)
+                ranges: extractRanges(availabilityRanges)
             }));
-    }
-})
+  }
+});
+
 export default Service

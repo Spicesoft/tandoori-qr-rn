@@ -60,9 +60,9 @@ class Home extends React.Component {
                   </CardItem>
                   <CardItem
                     button
-                    onPress={() => navigate("Service", {id: 5})}
+                    onPress={() => navigate("Service", {id: 68})}
                   >
-                    <Text>Shortcut service id=5</Text>
+                    <Text>Shortcut service id=68</Text>
                     <Right>
                       <Icon name="arrow-forward" />
                     </Right>

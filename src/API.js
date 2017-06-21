@@ -44,7 +44,7 @@ const API = {
             });
     },
 
-    getAvailabilitiesForService(serviceID) {
+    getAvailabilityRangesForService(serviceID) {
         const query = qs.stringify({
             service: serviceID,
             from_datetime: moment().format(),
@@ -54,6 +54,15 @@ const API = {
                 url: `${API_ROOT}/availabilities/ranges?${query}`
             })
             .then(response => response.json())
+            .then(response => {
+                const ranges = response[0].ranges;
+                // convert to moment or null
+                ranges.forEach(r => {
+                    r.lower = r.lower ? moment(r.lower) : null;
+                    r.upper = r.upper ? moment(r.upper) : null;
+                });
+                return ranges;
+            })
             .catch(response => {
                 console.error(response);
             });
