@@ -1,12 +1,19 @@
 import React, {Component, PropTypes as T} from "react";
 import moment from "moment";
 import {
+    Body,
+    Button,
     Container,
     Card,
     CardItem,
+    Left,
+    Icon,
     Text,
     H3
 } from "native-base";
+import {
+    Image
+} from "react-native";
 import API from "./API.js";
 import withRequest from "./hoc/withRequest";
 
@@ -16,16 +23,29 @@ class ReservationDetailComponent extends Component {
         title: "ReservationDetail"
     };
     static PropTypes = {
-        navigation: T.object.isRequired
+        navigation: T.object.isRequired,
+        service: T.object.isRequired,
     }
 
     render() {
         const {reservation} = this.props.navigation.state.params;
-        console.log(reservation);
+        const {navigate} = this.props.navigation;
         return (
             <Card style={{flex: 0}}>
                 <CardItem header>
                   <H3>{reservation.service.type.name}</H3>
+                </CardItem>
+                <CardItem>
+                    <Body style={styles.imgContainer}>
+                        <Image
+                            source={this.getImageSource()}
+                            style={styles.img}
+                            resizeMode="cover"
+                        />
+                    </Body>
+                </CardItem>
+                <CardItem>
+                    {this.renderServiceDescription()}
                 </CardItem>
                 <CardItem>
                   <Text>From {moment(reservation.from_datetime).format("LLLL")}</Text>
@@ -34,10 +54,34 @@ class ReservationDetailComponent extends Component {
                   <Text>To {moment(reservation.to_datetime).format("LLLL")}</Text>
                 </CardItem>
                 <CardItem>
-                    <Text>To {reservation.to_datetime}</Text>
+                    <Left>
+                        <Button
+                            transparent
+                            onPress={() => navigate("Home")}
+                        >
+                            <Icon name="arrow-back" />
+                            <Text>Go home</Text>
+                        </Button>
+                    </Left>
                 </CardItem>
             </Card>
         );
+    }
+
+    getImageSource() {
+        if (this.props.service) {
+            const {images} = this.props.service;
+            if (images.lenght > 0) {
+                return {uri: images[0]}; // Might need improvement
+            }
+        }
+        return require("./img/test.jpg");
+    }
+
+    renderServiceDescription() {
+        if (this.props.service) {
+            return <Text note>{this.props.service.description}</Text>
+        }
     }
 }
 
@@ -45,14 +89,20 @@ const styles = {
     cont: {
         padding: 15,
         backgroundColor: "#FFFFFF"
+    },
+    img: {
+        height: 200,
+        flex: 1
+    },
+    imgContainer: {
+        flexDirection: "row"
     }
 }
 
 
 const ReservationDetail = withRequest(ReservationDetailComponent, {
     requestProps(props) {
-        console.log(props);
-        const {pk} = props.navigation.state.params.reservation;
+        const {pk} = props.navigation.state.params.reservation.service;
         return  API.getServiceDetails(pk)
             .then(service => ({
                 service: service,
