@@ -208,7 +208,16 @@ function isAvailable(availabilityRanges, start, end) {
 }
 
 function insideOpeningHours(start, end, centerOpeningHours) {
-    const dayOfWeek = start.day() - 1;
+    let dayOfWeek = start.day() - 1;
+
+    if (dayOfWeek == -1) {
+        dayOfWeek = 6;
+    }
+
+    if (!dayOfWeek in centerOpeningHours) {
+        return false;
+    }
+
     // TODO take care of center timezone
     const openingHours = centerOpeningHours[dayOfWeek];
     opening = moment(openingHours["opening_time"], "HH:mm:ss");
