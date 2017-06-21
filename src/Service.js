@@ -1,4 +1,5 @@
 import React, {Component, PropTypes} from "react";
+import moment from "moment";
 import {
     Image,
     StyleSheet,
@@ -41,6 +42,7 @@ class Service extends Component {
                 <View style={styles.titleContainer}>
                     <H1 style={styles.title}>{service.name}</H1>
                 </View>
+                <Text>{JSON.stringify(this.props.ranges, null, 2)}</Text>
             </View>
         );
     }
@@ -58,7 +60,7 @@ const styles = StyleSheet.create({
     root: {
         flexDirection: "column"
     },
-    imageContainer: {
+    imageContainer: {   
         flexDirection: "row"
     },
     image: {
@@ -72,13 +74,29 @@ const styles = StyleSheet.create({
     }
 });
 
+function extractRanges(availabilities) {
+    return [{
+        to_datetime: moment().add(30, "m")
+    }, {
+        to_datetime: moment().add(60, "m")
+    }, {
+        to_datetime: moment().add(90, "m")
+    }, {
+        to_datetime: moment().add(120, "m")
+    }];
+}
 
 export default withRequest(Service, {
     requestProps(props) {
-      const {id} = props.navigation.state.params;
-      return API.getServiceDetails(id)
-        .then(data => ({
-          service: data
-        }));
+        const {id} = props.navigation.state.params;
+        return Promise
+            .all([
+                API.getServiceDetails(id),
+                API.getAvailabilitiesForService(id)
+            ])
+            .then(([service, availabilities]) => ({
+                service: service,
+                ranges: extractRanges(availabilities)
+            }));
   }
 })
