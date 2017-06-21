@@ -69,11 +69,11 @@ class Home extends React.Component {
                     </Right>
                   </CardItem>
                 </Card>
-                <CurrentReservations 
+                <CurrentReservations
                     reservations={this.props.currentReservations}
                     onItemPressed={this.goToReservationDetails.bind(this)}
                 />
-                <IncomingReservations 
+                <IncomingReservations
                     reservations={this.props.incomingReservations}
                     onItemPressed={this.goToReservationDetails.bind(this)}
                 />

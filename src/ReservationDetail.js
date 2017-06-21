@@ -4,19 +4,28 @@ import {
     CardItem,
     Text
 } from "native-base";
+import API from "./API.js";
+import withRequest from "./hoc/withRequest";
 
-export default class ReservationDetail extends Component {
+class ReservationDetailComponent extends Component {
 
     static navigationOptions = {
         title: "ReservationDetail"
     };
+    static PropTypes = {
+        navigation: T.object.isRequired
+    }
 
     render() {
         const {reservation} = this.props.navigation.state.params;
+        console.log(reservation);
         return (
-            <Card>
+            <Card style={{flex: 0}}>
                 <CardItem header>
-                    <Text>{reservation.service.name}</Text>
+                    <Text>{reservation.service.type.name}</Text>
+                </CardItem>
+                <CardItem>
+
                 </CardItem>
                 <CardItem>
                     <Text>From {reservation.from_datetime}</Text>
@@ -29,10 +38,16 @@ export default class ReservationDetail extends Component {
     }
 }
 
-ReservationDetail.propTypes= {
-    reservation: T.shape({
-        from_datetime: T.string.isRequired,
-        to_datetime: T.string.isRequired,
-        name: T.string.isRequired
-    }).isRequired
-}
+
+const ReservationDetail = withRequest(ReservationDetailComponent, {
+    requestProps(props) {
+        console.log(props);
+        const {pk} = props.navigation.state.params.reservation;
+        return  API.getServiceDetails(pk)
+            .then(service => ({
+                service: service,
+            }));
+  }
+});
+
+export default ReservationDetail
