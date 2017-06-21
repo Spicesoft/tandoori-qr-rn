@@ -1,11 +1,5 @@
 import React, {Component} from "react";
 import {
-  Alert,
-  // Button,
-  // Text,
-  View,
-} from "react-native";
-import {
     Button,
     Card,
     CardItem,
@@ -41,18 +35,9 @@ export default class Home extends React.Component {
         </CardItem>
         <CardItem
             button
-            onPress={() => navigate("Service", {id: 123})}
+            onPress={() => navigate("Service", {id: 5})}
         >
-          <Text>Shortcut service id=123</Text>
-          <Right>
-              <Icon name="arrow-forward" />
-          </Right>
-        </CardItem>
-        <CardItem
-            button
-            onPress={() => API.getAvailabilitiesForService(5).then(cat => Alert.alert("dispo", JSON.stringify(cat)))}
-        >
-          <Text>API test</Text>
+          <Text>Shortcut service id=5</Text>
           <Right>
               <Icon name="arrow-forward" />
           </Right>
