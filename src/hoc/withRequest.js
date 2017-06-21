@@ -25,7 +25,8 @@ export default function withRequest(WrappedComponent, {requestProps}) {
     render() {
       return (
         <WrappedComponent 
-          {...this.state.newProps}  
+          {...this.props} 
+          {...this.state.newProps} 
           loading={this.state.loading}
         />
       );

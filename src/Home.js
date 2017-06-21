@@ -1,4 +1,4 @@
-import React, {Component} from "react";
+import React, {Component, PropTypes} from "react";
 import {
     Button,
     Card,
@@ -14,14 +14,22 @@ import {
     View
 } from "react-native";
 
+import withRequest from "./hoc/withRequest";
+
 import API from "./API";
 import CurrentReservation from "./CurrentReservation"
 import IncomingReservations from "./IncomingReservations"
 
-export default class Home extends React.Component {
+
+class Home extends React.Component {
 
     static navigationOptions = {
         title: "CoWork.io",
+    };
+
+    static propTypes = {
+        navigation: PropTypes.object,
+        reservations: PropTypes.array
     };
 
     render() {
@@ -67,7 +75,7 @@ export default class Home extends React.Component {
                 </Card>
                 <Card>
                     <CardItem>
-                        <IncomingReservations reservations={[]} />
+                        <IncomingReservations reservations={this.props.reservations} />
                     </CardItem>
                 </Card>
               </Content>
@@ -90,3 +98,12 @@ const styles = {
         flexDirection: "row"
     }
 }
+
+export default withRequest(Home, {
+    requestProps(props) {
+        return API.getReservations()
+            .then(data => ({
+                reservations: data
+            }));
+    }
+})

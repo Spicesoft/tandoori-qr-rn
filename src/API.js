@@ -52,6 +52,22 @@ const API = {
             .catch(err => {
                 console.error(err);
             });
+    },
+
+    getReservations() {
+        const query = qs.stringify({
+            from_datetime: moment().format(),
+            to_datetime: moment().add(4, "hours").format()
+        });
+        return request({
+            url: `${API_ROOT}/reservations/ranges?${query}`
+        })
+        .then(response => {
+            return response;
+        })
+        .catch(err => {
+            console.error(err);
+        });
     }
 
 };
