@@ -16,6 +16,7 @@ import {
     Card,
     CardItem,
     Text,
+    Toast,
     Spinner,
     Picker,
     H1, H2, H3
@@ -39,8 +40,37 @@ class ServiceWithoutRequest extends Component {
         ranges: PropTypes.array
     };
 
+    confirmReservation(range) {
+        Alert.alert(
+            'Confirm Reservation',
+            'My Alert Msg',
+            [
+                {
+                     text: 'Cancel',
+                     style: 'cancel'
+                 }, {
+                     text: 'OK',
+                     onPress: () => {
+                         this.makeReservation(range);
+                     }
+                 },
+            ], { cancelable: true } );
+    }
+
     makeReservation(range) {
-        Alert.alert("test");
+        API.createReservation(this.props.id, range)
+           .then(() => {
+               Toast.show({
+                   text: "Reservation success",
+                   position: "bottom",
+                   buttonText: "Okay",
+                   duration: 2000,
+
+               });
+               this.props.navigation.navigate("Home");
+           })
+           .catch((r) => { Alert.alert("error", JSON.stringify(r))});
+
     }
 
     render() {
@@ -99,7 +129,7 @@ class ServiceWithoutRequest extends Component {
                       {this.props.ranges.map(range =>
                           <Button block
                                   style={{margin: 5}} key={range.to_datetime.format()}
-                                  onPress={() => this.makeReservation(range)}
+                                  onPress={() => this.confirmReservation(range)}
                           >
                             <Text>{`Until ${range.to_datetime.format("LT")}`}</Text>
                           </Button>
@@ -118,6 +148,7 @@ class ServiceWithoutRequest extends Component {
             </View>
         );
     }
+
 }
 
 const styles = {
@@ -195,6 +226,7 @@ function extractRanges(availabilityRanges) {
     [nextHalfHour, nextHour, nextTwoHours].forEach(end => {
         if (isAvailable(availabilityRanges, start, end)) {
             ranges.push({
+                from_datetime: start,
                 to_datetime: end
             });
         }
