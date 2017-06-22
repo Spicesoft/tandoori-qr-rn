@@ -76,14 +76,10 @@ class Home extends React.Component {
                             </Right>
                         </CardItem>
                     </Card>
-                    <Card>
-                        <CardItem header>
-                            <Text>Your first reservation for today</Text>
-                        </CardItem>
-                        <ReservationDetail
-                            reservation={this.getFirstCurrentReservation()}
-                        />
-                    </Card>
+                    <ReservationDetail
+                        cardTitle="Your first reservation for today"
+                        reservation={this.getFirstCurrentReservation()}
+                    />
                     <CurrentReservations
                         reservations={this.props.currentReservations}
                         onItemPressed={this.goToReservationDetails.bind(this)}

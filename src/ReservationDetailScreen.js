@@ -32,6 +32,7 @@ export default class ReservationDetailScreen extends Component {
         const {navigate} = this.props.navigation;
         return (
             <ReservationDetail
+                cardTitle="Reservation details"
                 reservation={reservation}
             />
         );

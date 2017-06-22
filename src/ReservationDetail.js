@@ -23,7 +23,8 @@ import withRequest from "./hoc/withRequest";
 class ReservationDetailComponent extends Component {
 
     static PropTypes = {
-        reservation: T.object.isRequired
+        reservation: T.object.isRequired,
+        cardTitle: T.string.isRequired
     };
 
     render() {
@@ -32,7 +33,10 @@ class ReservationDetailComponent extends Component {
             return <CardItem style={styles.itemWSpinner}><Spinner color='rgb(70, 130, 180)' /></CardItem>;
         }
         return (
-            <Body>
+            <Card>
+                <CardItem header>
+                    <Text>{this.props.cardTitle}</Text>
+                </CardItem>
                 <CardItem style={styles.imgContainer}>
                     <Image
                         source={this.getImageSource()}
@@ -60,7 +64,7 @@ class ReservationDetailComponent extends Component {
                         </Button>
                     </Right>
                 </CardItem>
-            </Body>
+            </Card>
         );
     }
 
