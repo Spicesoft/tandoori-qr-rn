@@ -24,12 +24,14 @@ class ReservationDetailComponent extends Component {
 
     static PropTypes = {
         reservation: T.object.isRequired,
-        cardTitle: T.string.isRequired
+        cardTitle: T.string.isRequired,
+        service: T.object,
+        serviceId: T.int
     };
 
     render() {
         const reservation = this.props.reservation;
-        if (!reservation.service) {
+        if (this.props.loading) {
             return <CardItem style={styles.itemWSpinner}><Spinner color='rgb(70, 130, 180)' /></CardItem>;
         }
         return (
@@ -41,7 +43,7 @@ class ReservationDetailComponent extends Component {
                     <Image
                         source={this.getImageSource()}
                         style={styles.img}
-                        resizeMode="cover"
+                        resizeMode="contain"
                     />
                 </CardItem>
                 {this.renderServiceDescription()}
@@ -71,8 +73,8 @@ class ReservationDetailComponent extends Component {
     getImageSource() {
         if (this.props.service) {
             const {images} = this.props.service;
-            if (images.lenght > 0) {
-                return {uri: images[0]}; // Might need improvement
+            if (images.length > 0) {
+                return {uri: images[0].medium_image_url};
             }
         }
         return require("./img/test.jpg");

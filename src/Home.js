@@ -11,6 +11,7 @@ import {
     Left,
     Icon,
     Right,
+    Spinner,
     Text,
     Thumbnail
 } from "native-base";
@@ -76,10 +77,7 @@ class Home extends React.Component {
                             </Right>
                         </CardItem>
                     </Card>
-                    <ReservationDetail
-                        cardTitle="Your first reservation for today"
-                        reservation={this.getFirstCurrentReservation()}
-                    />
+                    {this.renderReservationDetail()}
                     <CurrentReservations
                         reservations={this.props.currentReservations}
                         onItemPressed={this.goToReservationDetails.bind(this)}
@@ -98,9 +96,21 @@ class Home extends React.Component {
     }
 
     getFirstCurrentReservation() {
-        return this.props.currentReservations ? this.props.currentReservations[0] : {};
+        return this.props.currentReservations ? this.props.currentReservations[0] : null;
     }
 
+    renderReservationDetail() {
+        const firstCurrentReservation = this.getFirstCurrentReservation();
+        if (firstCurrentReservation !== null) {
+            return (
+                <ReservationDetail
+                    cardTitle="Your first reservation for today"
+                    reservation={firstCurrentReservation}
+                />
+            );
+        }
+        return <CardItem style={styles.itemWSpinner}><Spinner color='rgb(70, 130, 180)' /></CardItem>
+    }
 }
 
 const styles = {
@@ -113,6 +123,10 @@ const styles = {
     },
     view: {
         flexDirection: "row"
+    },
+    itemWSpinner: {
+        flex: 1,
+        justifyContent: "center"
     }
 }
 
