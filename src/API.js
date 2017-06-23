@@ -37,6 +37,12 @@ function request(options) {
 
 const API = {
 
+    logout() {
+        TOKEN = "";
+        TOKEN_TYPE = "";
+        return Promise.resolve();
+    },
+
     login(username, password) {
         const data = new FormData();
         data.append('grant_type', 'password');

@@ -85,7 +85,7 @@ export default class Login extends React.Component {
                    duration: 2000,
 
                });
-               this.props.onLogin();
+               this.props.onLoggedIn();
            })
            .catch((r) => {
                this.setState({

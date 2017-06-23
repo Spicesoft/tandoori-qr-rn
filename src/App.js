@@ -8,6 +8,9 @@ import Home from "./Home";
 import ReservationDetailScreen from "./ReservationDetailScreen";
 import Login from "./Login";
 
+import API from "./API";
+
+
 class App extends React.Component {
     state = {
         loggedIn: false
@@ -16,22 +19,29 @@ class App extends React.Component {
         if (this.state.loggedIn) {
             return (
                 <Container>
-                    <LoggedApp />
+                    <LoggedApp screenProps={{
+                        onLogout: this.onLogout
+                    }}/>
                 </Container>
             );
         }
         return (
             <Container>
-                <Login onLogin={this.onLogin} />
+                <Login onLoggedIn={this.onLoggedIn} />
             </Container>
         );
     }
 
-    onLogin = () => {
+    onLoggedIn = () => {
         this.setState({
             loggedIn: true
         });
     }
+    onLogout = () => {
+        API.logout().then(() => this.setState({
+            loggedIn: false
+        }));
+    } 
 }
 
 const LoggedApp = StackNavigator({

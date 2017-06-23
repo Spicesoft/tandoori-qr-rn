@@ -48,23 +48,16 @@ class ReservationDetailComponent extends Component {
                 </CardItem>
                 {this.renderServiceDescription()}
                 <CardItem>
-                    <Text>{reservation.service.type.name}</Text>
+                    <Text style={styles.service_type}>{reservation.service.type.name}</Text>
+                    <Text> - </Text>
+                    <Text style={styles.service} >{reservation.service.name}</Text>
                 </CardItem>
                 <CardItem>
-                    <Text note>From - {moment(reservation.from_datetime).format("LLLL")}</Text>
-                </CardItem>
-                <CardItem>
-                    <Text note>To - {moment(reservation.to_datetime).format("LLLL")}</Text>
-                </CardItem>
-                <CardItem>
-                    <Right>
-                        <Button
-                            transparent
-                        >
-                            <Text>See details</Text>
-                            <Icon name="arrow-forward" />
-                        </Button>
-                    </Right>
+                    <Text note>
+                        From - {moment(reservation.from_datetime).format("LLLL")}
+                        {"\n"}
+                        To - {moment(reservation.to_datetime).format("LLLL")}
+                    </Text>
                 </CardItem>
             </Card>
         );
@@ -106,6 +99,12 @@ const styles = {
     text: {
         marginTop: 5,
         marginBottom: 5
+    },
+    service_type: {
+        fontWeight: "bold"
+    },
+    service: {
+
     }
 }
 

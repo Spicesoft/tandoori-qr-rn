@@ -74,6 +74,12 @@ class Home extends React.Component {
                             >
                                 <Text>Shortcut service id=68</Text>
                             </Button>
+                            <Button
+                                transparent
+                                onPress={() => this.props.screenProps.onLogout()}
+                            >
+                                <Text>Logout</Text>
+                            </Button>
                         </Right>
                     </CardItem>
                 </Card>
