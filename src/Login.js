@@ -10,6 +10,7 @@ import {
     Label,
     ListItem,
     Right,
+    Spinner,
     Text,
     Toast
 } from "native-base";
@@ -26,7 +27,8 @@ export default class Login extends React.Component {
 
     state = {
         username: "pierre-andre.svetchine@example.com",
-        password: "tandoori"
+        password: "tandoori",
+        loading: false
     };
 
     render() {
@@ -46,9 +48,7 @@ export default class Login extends React.Component {
                             <Input secureTextEntry={true} value={this.state.password} onChangeText={(text) => this.setState({"password": text})}/>
                         </Item>
                         <View style={{justifyContent: "center", flexDirection: "row"}}>
-                            <Button block style={styles.loginButton} onPress={this.handleFormSubmit}>
-                                <Text>Log in</Text>
-                            </Button>
+                            {this.renderButton()}
                         </View>
                     </Form>
                 </Content>
@@ -56,8 +56,27 @@ export default class Login extends React.Component {
         );
     }
 
+    renderButton() {
+        if (this.state.loading) {
+            return (
+                <View style={styles.itemWSpinner}>
+                    <Spinner color='rgb(70, 130, 180)' />
+                </View>
+            );
+        }
+        return (
+            <Button block style={styles.loginButton} onPress={this.handleFormSubmit}>
+                <Text>Log in</Text>
+            </Button>
+        );
+    }
+
     // => keeps this
     handleFormSubmit = () => {
+        this.setState({
+            ...this.state,
+            loading: true
+        });
         API.login(this.state.username, this.state.password)
            .then(() => {
                Toast.show({
@@ -69,7 +88,13 @@ export default class Login extends React.Component {
                });
                this.props.onLogin();
            })
-           .catch((r) => { Alert.alert("error", JSON.stringify(r))});
+           .catch((r) => {
+               this.setState({
+                   ...this.state,
+                   loading: false
+               });
+               Alert.alert("error", JSON.stringify(r))
+           });
     }
 
 }
@@ -91,5 +116,9 @@ const styles = {
     loginButton: {
         width: width*0.8,
         marginTop: 20
+    },
+    itemWSpinner: {
+        flex: 1,
+        justifyContent: "center"
     }
 }
