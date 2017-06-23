@@ -1,7 +1,7 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
 import hoistNonReactStatic from "hoist-non-react-statics";
 
-export default function withRequest(WrappedComponent, {requestProps}) {
+export default function withRequest(WrappedComponent, { requestProps }) {
     class ComponentWithRequest extends Component {
         state = {
             loading: true,

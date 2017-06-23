@@ -12,7 +12,6 @@ import {
 import moment from "moment";
 
 export default class ReservationList extends React.Component {
-
     static PropTypes = {
         reservations: React.PropTypes.array,
         onItemPressed: React.PropTypes.function
@@ -23,9 +22,13 @@ export default class ReservationList extends React.Component {
     }
 
     renderReservations() {
-        const {reservations} = this.props;
+        const { reservations } = this.props;
         if (!reservations) {
-            return <CardItem style={styles.itemWSpinner}><Spinner color='rgb(70, 130, 180)' /></CardItem>;
+            return (
+                <CardItem style={styles.itemWSpinner}>
+                    <Spinner color="rgb(70, 130, 180)" />
+                </CardItem>
+            );
         }
         return reservations.map(reservation => {
             if (reservation.status === "A") {
@@ -35,18 +38,20 @@ export default class ReservationList extends React.Component {
                         onPress={() => this.props.onItemPressed(reservation)}
                         key={reservation.pk}
                     >
-                      <Left>
-                        <Text style={styles.marginRight}>{reservation.service.type.name}</Text>
-                      </Left>
-                      <Body>
-                        {this.renderReservationTime(
-                             reservation.from_datetime,
-                             reservation.to_datetime
-                        )}
-                      </Body>
-                      <Right>
-                        <Icon name="arrow-forward" />
-                      </Right>
+                        <Left>
+                            <Text style={styles.marginRight}>
+                                {reservation.service.type.name}
+                            </Text>
+                        </Left>
+                        <Body>
+                            {this.renderReservationTime(
+                                reservation.from_datetime,
+                                reservation.to_datetime
+                            )}
+                        </Body>
+                        <Right>
+                            <Icon name="arrow-forward" />
+                        </Right>
                     </CardItem>
                 );
             }
@@ -57,14 +62,11 @@ export default class ReservationList extends React.Component {
         from = moment(fromDate).format("HH:mm");
         to = moment(toDate).format("HH:mm");
         if (from === "00:00" && to == "00:00") {
-            return <Text>All day</Text>
+            return <Text>All day</Text>;
         }
-        return (
-            <Text>From {from} to {to}</Text>
-        );
+        return <Text>From {from} to {to}</Text>;
     }
 }
-
 
 const styles = {
     itemWSpinner: {

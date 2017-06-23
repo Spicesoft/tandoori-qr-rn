@@ -1,6 +1,6 @@
 import React from "react";
-import {StackNavigator} from "react-navigation";
-import {Container, Content, Text, Button} from "native-base"
+import { StackNavigator } from "react-navigation";
+import { Container, Content, Text, Button } from "native-base";
 
 import QRScanner from "./QRScanner";
 import Service from "./Service";
@@ -9,7 +9,6 @@ import ReservationDetailScreen from "./ReservationDetailScreen";
 import Login from "./Login";
 
 import API from "./API";
-
 
 class App extends React.Component {
     state = {
@@ -37,9 +36,11 @@ class App extends React.Component {
         if (this.state.loggedIn) {
             return (
                 <Container>
-                    <LoggedApp screenProps={{
-                        onLogout: this.onLogout
-                    }}/>
+                    <LoggedApp
+                        screenProps={{
+                            onLogout: this.onLogout
+                        }}
+                    />
                 </Container>
             );
         }
@@ -54,23 +55,25 @@ class App extends React.Component {
         this.setState({
             loggedIn: true
         });
-    }
+    };
     onLogout = () => {
-        API.logout().then(() => this.setState({
-            loggedIn: false
-        }));
-    } 
+        API.logout().then(() =>
+            this.setState({
+                loggedIn: false
+            })
+        );
+    };
 }
 
 const LoggedApp = StackNavigator({
     Home: {
         screen: Home,
-        navigationOptions: ({screenProps}) => ({
+        navigationOptions: ({ screenProps }) => ({
             title: "CoWork.io",
             headerRight: (
-                <Button 
-                    transparent 
-                    style={{paddingRight: 10}}
+                <Button
+                    transparent
+                    style={{ paddingRight: 10 }}
                     onPress={() => screenProps.onLogout()}
                 >
                     <Text>Log out</Text>
@@ -78,9 +81,9 @@ const LoggedApp = StackNavigator({
             )
         })
     },
-    QRScanner: {screen: QRScanner},
-    Service: {screen: Service},
-    ReservationDetailScreen: {screen: ReservationDetailScreen}
+    QRScanner: { screen: QRScanner },
+    Service: { screen: Service },
+    ReservationDetailScreen: { screen: ReservationDetailScreen }
 });
 
 export default App;

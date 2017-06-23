@@ -1,4 +1,4 @@
-import React, {Component, PropTypes} from "react";
+import React, { Component, PropTypes } from "react";
 
 import moment from "moment";
 import PushNotification from 'react-native-push-notification';
@@ -8,7 +8,8 @@ import {
     Image,
     StyleSheet,
     RefreshControl,
-    View, ScrollView
+    View,
+    ScrollView
 } from "react-native";
 
 import {
@@ -21,8 +22,10 @@ import {
     Toast,
     Spinner,
     Picker,
-    H1, H2, H3
-} from 'native-base';
+    H1,
+    H2,
+    H3
+} from "native-base";
 
 import API from "./API";
 
@@ -44,9 +47,8 @@ PushNotification.configure({
 });
 
 class ServiceWithoutRequest extends Component {
-
     static navigationOptions = {
-        title: "Service",
+        title: "Service"
     };
 
     constructor(props) {
@@ -64,19 +66,22 @@ class ServiceWithoutRequest extends Component {
 
     confirmReservation(range) {
         Alert.alert(
-            'Confirm Reservation',
+            "Confirm Reservation",
             `Confirm reservation for service ${this.props.service.name}`,
             [
                 {
-                    text: 'Cancel',
-                    style: 'cancel'
-                }, {
-                    text: 'OK',
+                    text: "Cancel",
+                    style: "cancel"
+                },
+                {
+                    text: "OK",
                     onPress: () => {
                         this.makeReservation(range);
                     }
-                },
-            ], {cancelable: true});
+                }
+            ],
+            { cancelable: true }
+        );
     }
 
     makeReservation(range) {
@@ -102,18 +107,18 @@ class ServiceWithoutRequest extends Component {
                     text: "Reservation success",
                     position: "bottom",
                     buttonText: "Okay",
-                    duration: 2000,
-
+                    duration: 2000
                 });
 
                 this.props.navigation.navigate("Home");
             })
-            .catch((r) => {Alert.alert("error", JSON.stringify(r))});
-
+            .catch(r => {
+                Alert.alert("error", JSON.stringify(r));
+            });
     }
 
     _onRefresh() {
-        this.setState({refreshing: true});
+        this.setState({ refreshing: true });
     }
 
     render() {
@@ -121,36 +126,39 @@ class ServiceWithoutRequest extends Component {
             return this.renderLoader();
         }
 
-        const {service} = this.props;
+        const { service } = this.props;
         const image = service.images[0]; // TODO default image
         const imageSource = image
-            ? {uri: image.medium_image_url}
+            ? { uri: image.medium_image_url }
             : require("./img/test.jpg");
 
         return (
             <Container style={styles.root}>
-              {/*  TODO refreshControl : refreshControl={
+                {/*  TODO refreshControl : refreshControl={
                   <RefreshControl refreshing={this.state.refreshing} onRefresh={this._onRefresh.bind(this)} />
                   }>*/}
-              <Content>
-                <View style={styles.imageContainer}>
-                  <Image source={imageSource} resizeMode="cover" style={styles.image} />
-                </View>
-                <View style={styles.titleContainer}>
-                  <H1 style={styles.title}>{service.name}</H1>
-                </View>
+                <Content>
+                    <View style={styles.imageContainer}>
+                        <Image
+                            source={imageSource}
+                            resizeMode="cover"
+                            style={styles.image}
+                        />
+                    </View>
+                    <View style={styles.titleContainer}>
+                        <H1 style={styles.title}>{service.name}</H1>
+                    </View>
 
-                <View style={styles.cont}>
-                  {this.renderServiceStatus()}
-                </View>
-              </Content>
+                    <View style={styles.cont}>
+                        {this.renderServiceStatus()}
+                    </View>
+                </Content>
             </Container>
-
         );
     }
 
     renderServiceStatus() {
-        const dispo = ("ranges" in this.props && this.props.ranges.length != 0);
+        const dispo = "ranges" in this.props && this.props.ranges.length != 0;
 
         if (!dispo) {
             return (
@@ -171,19 +179,24 @@ class ServiceWithoutRequest extends Component {
                         <H3>Book the service</H3>
                     </CardItem>
                     <CardItem>
-                        <View style={{flex: 1}}>
+                        <View style={{ flex: 1 }}>
                             {this.props.ranges.map(range =>
-                                <Button block
-                                    style={{margin: 5}} key={range.to_datetime.format()}
-                                    onPress={() => this.confirmReservation(range)}
+                                <Button
+                                    block
+                                    style={{ margin: 5 }}
+                                    key={range.to_datetime.format()}
+                                    onPress={() =>
+                                        this.confirmReservation(range)}
                                 >
-                                    <Text>{`Until ${range.to_datetime.format("LT")}`}</Text>
+                                    <Text>{`Until ${range.to_datetime.format(
+                                        "LT"
+                                    )}`}</Text>
                                 </Button>
                             )}
                         </View>
                     </CardItem>
                 </Card>
-            )
+            );
         }
     }
 
@@ -194,12 +207,11 @@ class ServiceWithoutRequest extends Component {
             </View>
         );
     }
-
 }
 
 const styles = {
     cont: {
-        padding: 15,
+        padding: 15
     },
 
     root: {
@@ -219,7 +231,7 @@ const styles = {
     titleContainer: {
         alignItems: "center",
         padding: 5,
-        backgroundColor: "rgb(70, 130, 180)",
+        backgroundColor: "rgb(70, 130, 180)"
     },
 
     title: {
@@ -240,15 +252,14 @@ const styles = {
         padding: 10,
         borderWidth: 1
     }
-
 };
 
 function isAvailable(availabilityRanges, start, end) {
     for (let i = 0; i < availabilityRanges.length; i++) {
-        const {lower, upper} = availabilityRanges[i];
+        const { lower, upper } = availabilityRanges[i];
         const safeLower = lower || start; // null means -infinity so start as a lower bound is fine
-        const safeUpper = upper || end;   // same thing
-        return (safeLower <= start && end <= safeUpper);
+        const safeUpper = upper || end; // same thing
+        return safeLower <= start && end <= safeUpper;
     }
     return false;
 }
@@ -275,15 +286,14 @@ function insideOpeningHours(start, end, centerOpeningHours) {
     // TODO take care of center timezone
     opening = moment(openingHours["opening_time"], "HH:mm:ss");
     closing = moment(openingHours["closing_time"], "HH:mm:ss");
-    return (opening <= start && end <= closing);
+    return opening <= start && end <= closing;
 }
 
 function extractRanges(availabilityRanges, openingHours) {
     const nowFloored = moment();
     if (nowFloored.minutes() < 30) {
         nowFloored.startOf("hour");
-    }
-    else {
+    } else {
         nowFloored.startOf("hour").add(30, "minutes");
     }
 
@@ -294,7 +304,10 @@ function extractRanges(availabilityRanges, openingHours) {
     const ranges = [];
 
     [nextHalfHour, nextHour, nextTwoHours].forEach(end => {
-        if (isAvailable(availabilityRanges, start, end) && insideOpeningHours(start, end, openingHours)) {
+        if (
+            isAvailable(availabilityRanges, start, end) &&
+            insideOpeningHours(start, end, openingHours)
+        ) {
             ranges.push({
                 from_datetime: start,
                 to_datetime: end
@@ -306,23 +319,23 @@ function extractRanges(availabilityRanges, openingHours) {
 
 const Service = withRequest(ServiceWithoutRequest, {
     requestProps: function request(props) {
-        const {id} = props.navigation.state.params;
-        return Promise
-            .all([
-                API.getServiceDetails(id),
-                API.getAvailabilityRangesForService(id)
-            ])
-            .then(([service, availabilityRanges]) => {
-                return API.getCenterDetails(service.center_pk)
-                    .then(center => {
-                        const centerOpeningHours = center["opening_hours"];
-                        return {
-                            service: service,
-                            ranges: extractRanges(availabilityRanges, centerOpeningHours)
-                        }
-                    });
+        const { id } = props.navigation.state.params;
+        return Promise.all([
+            API.getServiceDetails(id),
+            API.getAvailabilityRangesForService(id)
+        ]).then(([service, availabilityRanges]) => {
+            return API.getCenterDetails(service.center_pk).then(center => {
+                const centerOpeningHours = center["opening_hours"];
+                return {
+                    service: service,
+                    ranges: extractRanges(
+                        availabilityRanges,
+                        centerOpeningHours
+                    )
+                };
             });
+        });
     }
 });
 
-export default Service
+export default Service;

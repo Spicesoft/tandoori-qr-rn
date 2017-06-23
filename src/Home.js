@@ -1,4 +1,4 @@
-import React, {Component, PropTypes} from "react";
+import React, { Component, PropTypes } from "react";
 import {
     Body,
     Button,
@@ -15,10 +15,7 @@ import {
     Text,
     Thumbnail
 } from "native-base";
-import {
-    Image,
-    View
-} from "react-native";
+import { Image, View } from "react-native";
 import moment from "moment";
 
 import withRequest from "./hoc/withRequest";
@@ -28,10 +25,9 @@ import CurrentReservations from "./CurrentReservations";
 import IncomingReservations from "./IncomingReservations";
 import ReservationDetail from "./ReservationDetail";
 
-
 class Home extends React.Component {
     // navigation options are in App.js
-    
+
     static propTypes = {
         navigation: PropTypes.object,
         currentReservations: PropTypes.array,
@@ -39,18 +35,18 @@ class Home extends React.Component {
     };
 
     render() {
-        const {navigate} = this.props.navigation;
+        const { navigate } = this.props.navigation;
 
         return (
-            <Content style={{flex: 1}}>
+            <Content style={{ flex: 1 }}>
                 <Card>
                     <CardItem header>
                         <Left>
-                            <Thumbnail
-                                source={require("./img/logo.png")}
-                            />
+                            <Thumbnail source={require("./img/logo.png")} />
                             <Body>
-                                <Text>Welcome to the react-native workshop!</Text>
+                                <Text>
+                                    Welcome to the react-native workshop!
+                                </Text>
                                 <Text note>Let's get you a place</Text>
                             </Body>
                         </Left>
@@ -67,7 +63,7 @@ class Home extends React.Component {
                         <Right>
                             <Button
                                 transparent
-                                onPress={() => navigate("Service", {id: 68})}
+                                onPress={() => navigate("Service", { id: 68 })}
                             >
                                 <Text>Shortcut service id=68</Text>
                             </Button>
@@ -88,11 +84,13 @@ class Home extends React.Component {
     }
 
     goToReservationDetails(reservation) {
-        return this.props.navigation.navigate("ReservationDetailScreen", {reservation: reservation});
+        return this.props.navigation.navigate("ReservationDetailScreen", {
+            reservation: reservation
+        });
     }
 
     getFirstCurrentReservation() {
-        const list = [...this.props.currentReservations || []];
+        const list = [...(this.props.currentReservations || [])];
         // find the reservation that ends first
         list.sort((a, b) => moment(a.to_datetime) - moment(b.to_datetime));
         return list[0] || null;
@@ -108,10 +106,13 @@ class Home extends React.Component {
                 />
             );
         }
-        return <CardItem style={styles.itemWSpinner}><Spinner color='rgb(70, 130, 180)' /></CardItem>
+        return (
+            <CardItem style={styles.itemWSpinner}>
+                <Spinner color="rgb(70, 130, 180)" />
+            </CardItem>
+        );
     }
 }
-
 
 const styles = {
     cont: {
@@ -132,12 +133,11 @@ const styles = {
 
 export default withRequest(Home, {
     requestProps(props) {
-        return API.getReservations()
-            .then(data => {
-                return {
-                    currentReservations: data.currentReservations,
-                    incomingReservations: data.incomingReservations
-                }
-            });
+        return API.getReservations().then(data => {
+            return {
+                currentReservations: data.currentReservations,
+                incomingReservations: data.incomingReservations
+            };
+        });
     }
-})
+});

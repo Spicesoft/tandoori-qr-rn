@@ -1,35 +1,24 @@
-import React, {Component, PropTypes as T} from "react";
+import React, { Component, PropTypes as T } from "react";
 import moment from "moment";
-import {
-    Body,
-    Container,
-    Card,
-    CardItem,
-    Icon,
-    Text,
-    H3
-} from "native-base";
-import {
-    Image
-} from "react-native";
+import { Body, Container, Card, CardItem, Icon, Text, H3 } from "native-base";
+import { Image } from "react-native";
 import API from "./API.js";
 import withRequest from "./hoc/withRequest";
 
 import ReservationDetail from "./ReservationDetail";
 
 export default class ReservationDetailScreen extends Component {
-
     static navigationOptions = {
         title: "ReservationDetailScreen"
     };
     static PropTypes = {
         navigation: T.object.isRequired,
-        service: T.object.isRequired,
-    }
+        service: T.object.isRequired
+    };
 
     render() {
-        const {reservation} = this.props.navigation.state.params;
-        const {navigate} = this.props.navigation;
+        const { reservation } = this.props.navigation.state.params;
+        const { navigate } = this.props.navigation;
         return (
             <ReservationDetail
                 cardTitle="Reservation details"
@@ -51,4 +40,4 @@ const styles = {
     imgContainer: {
         flexDirection: "row"
     }
-}
+};

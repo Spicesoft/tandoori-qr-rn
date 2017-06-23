@@ -1,7 +1,6 @@
 import moment from "moment";
 import qs from "query-string";
-import {AsyncStorage} from "react-native";
-
+import { AsyncStorage } from "react-native";
 
 let ACCOUNT_ID = 0;
 let TOKEN = "";
@@ -11,33 +10,31 @@ const DOMAIN = "neo-yolo.tandoori.pro";
 const API_ROOT = `https://${DOMAIN}/api/v1`;
 
 const CLIENT_ID = "knvaPLwDO1L9DPn3RLtIwmfH6ARMtIIxRrX5QwYn";
-const CLIENT_SECRET = "ernC9olZ0yeuOLwhH5wmpGXs1LoXhaXRdazDh1wSvrMzsGtNS7C8ahSTTreeDjSJMgAOMysAVruGIPam3rTye6iwytGFw3wAlI2tCXwh92HTQqhG2OAQfjZALCVDc5GM";
+const CLIENT_SECRET =
+    "ernC9olZ0yeuOLwhH5wmpGXs1LoXhaXRdazDh1wSvrMzsGtNS7C8ahSTTreeDjSJMgAOMysAVruGIPam3rTye6iwytGFw3wAlI2tCXwh92HTQqhG2OAQfjZALCVDc5GM";
 
 function request(options) {
     return new Promise((resolve, reject) => {
-        console.log("request", `${TOKEN_TYPE} ${TOKEN}`, options)
+        console.log("request", `${TOKEN_TYPE} ${TOKEN}`, options);
         fetch(options.url, {
-                method: "GET",
-                headers: {
-                    "Authorization": `${TOKEN_TYPE} ${TOKEN}`,
-                    "Accept": "application/json",
-                    "Content-Type": "application/json"
-                },
-                ...options
-            })
-            .then(response => {
-                if ( response.status < 400 ) {
-                    resolve(response)
-                }
-                else {
-                    reject(response)
-                }
-            });
-    })
+            method: "GET",
+            headers: {
+                Authorization: `${TOKEN_TYPE} ${TOKEN}`,
+                Accept: "application/json",
+                "Content-Type": "application/json"
+            },
+            ...options
+        }).then(response => {
+            if (response.status < 400) {
+                resolve(response);
+            } else {
+                reject(response);
+            }
+        });
+    });
 }
 
 const API = {
-
     async checkLogin() {
         const storedToken = await AsyncStorage.getItem("@Cowork:token");
         const storedTokenType = await AsyncStorage.getItem("@Cowork:tokenType");
@@ -46,8 +43,7 @@ const API = {
             TOKEN_TYPE = storedTokenType;
             try {
                 const details = await API.getAccountDetails();
-            }
-            catch (e) {
+            } catch (e) {
                 await API.logout();
                 return false;
             }
@@ -66,11 +62,11 @@ const API = {
 
     async login(username, password) {
         const data = new FormData();
-        data.append('grant_type', 'password');
-        data.append('client_id', CLIENT_ID);
-        data.append('client_secret', CLIENT_SECRET);
-        data.append('username', username);
-        data.append('password', password);
+        data.append("grant_type", "password");
+        data.append("client_id", CLIENT_ID);
+        data.append("client_secret", CLIENT_SECRET);
+        data.append("username", username);
+        data.append("password", password);
         data.append("random", Math.random()); // solve "Invalid request" bug
 
         // use fetch instead of request to let fetch decides the headers
@@ -86,16 +82,16 @@ const API = {
 
         await Promise.all([
             AsyncStorage.setItem("@Cowork:token", TOKEN),
-            AsyncStorage.setItem("@Cowork:tokenType", TOKEN_TYPE),
+            AsyncStorage.setItem("@Cowork:tokenType", TOKEN_TYPE)
         ]);
         const details = await API.getAccountDetails();
         console.log(details);
     },
 
-    getAccountDetails() {
+    getAccountDetails() {
         return request({
-                url: `${API_ROOT}/accounts/me/`,
-            })
+            url: `${API_ROOT}/accounts/me/`
+        })
             .then(response => {
                 if (response.status === 403) {
                     // token has expired
@@ -110,8 +106,8 @@ const API = {
 
     getServiceDetails(id) {
         return request({
-                url: `${API_ROOT}/services/${id}/`,
-            })
+            url: `${API_ROOT}/services/${id}/`
+        })
             .then(response => response.json())
             .catch(response => {
                 console.error(response);
@@ -120,12 +116,12 @@ const API = {
 
     getCenterDetails(centerID) {
         return request({
-            url: `${API_ROOT}/centers/${centerID}/`,
+            url: `${API_ROOT}/centers/${centerID}/`
         })
-        .then(response => response.json())
-        .catch(response => {
-            console.error(response);
-        });
+            .then(response => response.json())
+            .catch(response => {
+                console.error(response);
+            });
     },
 
     getAvailabilityRangesForService(serviceID) {
@@ -135,8 +131,8 @@ const API = {
             to_datetime: moment().add(4, "hours").format()
         });
         return request({
-                url: `${API_ROOT}/availabilities/ranges/?${query}`
-            })
+            url: `${API_ROOT}/availabilities/ranges/?${query}`
+        })
             .then(response => response.json())
             .then(response => {
                 const ranges = response[0].ranges;
@@ -160,30 +156,30 @@ const API = {
         return request({
             url: `${API_ROOT}/reservations/active/?${query}`
         })
-        .then(response => response.json())
-        .then(response => {
-            const currentReservations = [];
-            const incomingReservations = [];
-            response.forEach(reservation => {
-                if (moment(reservation.from_datetime) <= moment()) {
-                    currentReservations.push(reservation);
-                } else {
-                    incomingReservations.push(reservation);
-                }
-            });
+            .then(response => response.json())
+            .then(response => {
+                const currentReservations = [];
+                const incomingReservations = [];
+                response.forEach(reservation => {
+                    if (moment(reservation.from_datetime) <= moment()) {
+                        currentReservations.push(reservation);
+                    } else {
+                        incomingReservations.push(reservation);
+                    }
+                });
 
-            return {
-                "currentReservations": currentReservations,
-                "incomingReservations": incomingReservations
-            }
-        })
-        .catch(err => {
-            console.error(err);
-        });
+                return {
+                    currentReservations: currentReservations,
+                    incomingReservations: incomingReservations
+                };
+            })
+            .catch(err => {
+                console.error(err);
+            });
     },
 
     createReservation(id, range) {
-        const {from_datetime, to_datetime} = range;
+        const { from_datetime, to_datetime } = range;
         return request({
             method: "POST",
             url: `${API_ROOT}/accounts/${ACCOUNT_ID}/reservation/`,
@@ -193,10 +189,8 @@ const API = {
                 service: id,
                 unit_id: "hh"
             })
-        })
-        .then(response => response.json());
+        }).then(response => response.json());
     }
-
 };
 
 export default API;

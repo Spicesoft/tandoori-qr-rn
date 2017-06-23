@@ -1,4 +1,4 @@
-import React, {Component, PropTypes as T} from "react";
+import React, { Component, PropTypes as T } from "react";
 import moment from "moment";
 import {
     Button,
@@ -13,15 +13,11 @@ import {
     Text,
     H3
 } from "native-base";
-import {
-    Image,
-    View
-} from "react-native";
+import { Image, View } from "react-native";
 import API from "./API.js";
 import withRequest from "./hoc/withRequest";
 
 class ReservationDetailComponent extends Component {
-
     static PropTypes = {
         reservation: T.object.isRequired,
         cardTitle: T.string.isRequired,
@@ -32,7 +28,11 @@ class ReservationDetailComponent extends Component {
     render() {
         const reservation = this.props.reservation;
         if (this.props.loading) {
-            return <CardItem style={styles.itemWSpinner}><Spinner color='rgb(70, 130, 180)' /></CardItem>;
+            return (
+                <CardItem style={styles.itemWSpinner}>
+                    <Spinner color="rgb(70, 130, 180)" />
+                </CardItem>
+            );
         }
         return (
             <Card>
@@ -48,13 +48,18 @@ class ReservationDetailComponent extends Component {
                 </CardItem>
                 {this.renderServiceDescription()}
                 <CardItem>
-                    <Text style={styles.service_type}>{reservation.service.type.name}</Text>
+                    <Text style={styles.service_type}>
+                        {reservation.service.type.name}
+                    </Text>
                     <Text> - </Text>
-                    <Text style={styles.service} >{reservation.service.name}</Text>
+                    <Text style={styles.service}>
+                        {reservation.service.name}
+                    </Text>
                 </CardItem>
                 <CardItem>
                     <Text note>
-                        From - {moment(reservation.from_datetime).format("LLLL")}
+                        From -{" "}
+                        {moment(reservation.from_datetime).format("LLLL")}
                         {"\n"}
                         To - {moment(reservation.to_datetime).format("LLLL")}
                     </Text>
@@ -65,9 +70,9 @@ class ReservationDetailComponent extends Component {
 
     getImageSource() {
         if (this.props.service) {
-            const {images} = this.props.service;
+            const { images } = this.props.service;
             if (images.length > 0) {
-                return {uri: images[0].medium_image_url};
+                return { uri: images[0].medium_image_url };
             }
         }
         return require("./img/test.jpg");
@@ -75,7 +80,7 @@ class ReservationDetailComponent extends Component {
 
     renderServiceDescription() {
         if (this.props.service) {
-            return <Text note>{this.props.service.description}</Text>
+            return <Text note>{this.props.service.description}</Text>;
         }
     }
 }
@@ -103,19 +108,16 @@ const styles = {
     service_type: {
         fontWeight: "bold"
     },
-    service: {
-
-    }
-}
+    service: {}
+};
 
 const ReservationDetail = withRequest(ReservationDetailComponent, {
     requestProps(props) {
         if (props.reservation.service) {
-            const {pk} = props.reservation.service;
-            return  API.getServiceDetails(pk)
-                .then(service => ({
-                    service: service,
-                }));
+            const { pk } = props.reservation.service;
+            return API.getServiceDetails(pk).then(service => ({
+                service: service
+            }));
         }
         return Promise.resolve();
     }
