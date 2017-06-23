@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Component } from "react";
 import { StackNavigator } from "react-navigation";
 import { Container, Content, Text, Button } from "native-base";
 
@@ -10,7 +10,7 @@ import Login from "./Login";
 
 import API from "./API";
 
-class App extends React.Component {
+class App extends Component {
     state = {
         checking: true,
         loggedIn: false

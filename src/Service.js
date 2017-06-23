@@ -1,37 +1,26 @@
-import React, { Component, PropTypes } from "react";
-
+import React, { Component } from "react";
+import PropTypes from "prop-types";
 import moment from "moment";
 import PushNotification from 'react-native-push-notification';
-
 import {
     Alert,
     Image,
-    StyleSheet,
-    RefreshControl,
-    View,
-    ScrollView
+    View
 } from "react-native";
-
 import {
     Button,
-    Container,
     Content,
     Card,
     CardItem,
-    Text,
     Toast,
     Spinner,
-    Picker,
     H1,
-    H2,
     H3
 } from "native-base";
 
 import API from "./API";
-
 import withRequest from "./hoc/withRequest";
 
-/* import { Bubbles, DoubleBounce, Bars, Pulse } from 'react-native-loader';*/
 
 PushNotification.configure({
     onNotification: function(notification) {
@@ -50,18 +39,14 @@ class ServiceWithoutRequest extends Component {
     static navigationOptions = {
         title: "Service"
     };
-
-    constructor(props) {
-        super(props);
-        this.state = {
-            refreshing: false
-        };
-    }
-
     static propTypes = {
         loading: PropTypes.bool,
         service: PropTypes.object,
         ranges: PropTypes.array
+    };
+
+    state = {
+        refreshing: false
     };
 
     confirmReservation(range) {
@@ -133,27 +118,22 @@ class ServiceWithoutRequest extends Component {
             : require("./img/test.jpg");
 
         return (
-            <Container style={styles.root}>
-                {/*  TODO refreshControl : refreshControl={
-                  <RefreshControl refreshing={this.state.refreshing} onRefresh={this._onRefresh.bind(this)} />
-                  }>*/}
-                <Content>
-                    <View style={styles.imageContainer}>
-                        <Image
-                            source={imageSource}
-                            resizeMode="cover"
-                            style={styles.image}
-                        />
-                    </View>
-                    <View style={styles.titleContainer}>
-                        <H1 style={styles.title}>{service.name}</H1>
-                    </View>
+            <Content>
+                <View style={styles.imageContainer}>
+                    <Image
+                        source={imageSource}
+                        resizeMode="cover"
+                        style={styles.image}
+                    />
+                </View>
+                <View style={styles.titleContainer}>
+                    <H1 style={styles.title}>{service.name}</H1>
+                </View>
 
-                    <View style={styles.cont}>
-                        {this.renderServiceStatus()}
-                    </View>
-                </Content>
-            </Container>
+                <View style={styles.cont}>
+                    {this.renderServiceStatus()}
+                </View>
+            </Content>
         );
     }
 

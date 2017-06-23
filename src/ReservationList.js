@@ -1,7 +1,7 @@
-import React from "react";
+import React, { Component } from "react";
+import PropTypes from "prop-types";
 import {
     Body,
-    Card,
     CardItem,
     Icon,
     Left,
@@ -11,10 +11,10 @@ import {
 } from "native-base";
 import moment from "moment";
 
-export default class ReservationList extends React.Component {
-    static PropTypes = {
-        reservations: React.PropTypes.array,
-        onItemPressed: React.PropTypes.function
+export default class ReservationList extends Component {
+    static propTypes = {
+        reservations: PropTypes.array,
+        onItemPressed: PropTypes.function
     };
 
     render() {

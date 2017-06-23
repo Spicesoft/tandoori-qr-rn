@@ -1,12 +1,13 @@
-import React from "react";
+import React, { Component } from "react";
+import PropTypes from "prop-types";
 import { Card, CardItem, Container, Text } from "native-base";
 
 import ReservationList from "./ReservationList";
 
-export default class IncomingReservations extends React.Component {
+export default class IncomingReservations extends Component {
     static propTypes = {
-        reservations: React.PropTypes.array,
-        onItemPressed: React.PropTypes.func
+        reservations: PropTypes.array,
+        onItemPressed: PropTypes.func
     };
 
     render() {

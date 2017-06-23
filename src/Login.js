@@ -1,16 +1,11 @@
 import React, { Component } from "react";
 import {
-    Body,
     Button,
-    Container,
-    CheckBox,
     Content,
     Form,
     Input,
     Item,
     Label,
-    ListItem,
-    Right,
     Spinner,
     Text,
     Toast

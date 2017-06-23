@@ -1,19 +1,20 @@
-import React, { Component, PropTypes as T } from "react";
+import React, { Component } from "react";
+import PropTypes from "prop-types";
 import moment from "moment";
 import { Body, Container, Card, CardItem, Icon, Text, H3 } from "native-base";
 import { Image } from "react-native";
+
 import API from "./API.js";
 import withRequest from "./hoc/withRequest";
-
 import ReservationDetail from "./ReservationDetail";
 
 export default class ReservationDetailScreen extends Component {
     static navigationOptions = {
         title: "ReservationDetailScreen"
     };
-    static PropTypes = {
-        navigation: T.object.isRequired,
-        service: T.object.isRequired
+    static propTypes = {
+        navigation: PropTypes.object.isRequired,
+        service: PropTypes.object.isRequired
     };
 
     render() {

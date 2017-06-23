@@ -1,15 +1,12 @@
-import React, { Component, PropTypes } from "react";
+import React, { Component } from "react";
+import PropTypes from "prop-types";
 import {
     Body,
     Button,
     Card,
     CardItem,
-    Col,
-    Container,
     Content,
-    Grid,
     Left,
-    Icon,
     Right,
     Spinner,
     Text,
@@ -19,7 +16,6 @@ import { Image, View } from "react-native";
 import moment from "moment";
 
 import withRequest from "./hoc/withRequest";
-
 import API from "./API";
 import CurrentReservations from "./CurrentReservations";
 import IncomingReservations from "./IncomingReservations";

@@ -1,28 +1,23 @@
-import React, { Component, PropTypes as T } from "react";
+import React, { Component } from "react";
+import PropTypes from "prop-types";
 import moment from "moment";
 import {
-    Button,
-    Body,
     Card,
     CardItem,
-    Container,
-    Icon,
-    Left,
-    Right,
     Spinner,
-    Text,
-    H3
+    Text
 } from "native-base";
 import { Image, View } from "react-native";
+
 import API from "./API.js";
 import withRequest from "./hoc/withRequest";
 
 class ReservationDetailComponent extends Component {
-    static PropTypes = {
-        reservation: T.object.isRequired,
-        cardTitle: T.string.isRequired,
-        service: T.object,
-        serviceId: T.int
+    static propTypes = {
+        reservation: PropTypes.object.isRequired,
+        cardTitle: PropTypes.string.isRequired,
+        service: PropTypes.object,
+        serviceId: PropTypes.int
     };
 
     render() {

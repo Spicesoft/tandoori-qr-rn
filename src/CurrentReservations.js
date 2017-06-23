@@ -1,19 +1,19 @@
-import React from "react";
+import React, { Component } from "react";
+import PropTypes from "prop-types";
 import { Card, CardItem, Text } from "native-base";
 
 import API from "./API.js";
 import withRequest from "./hoc/withRequest";
 import ReservationList from "./ReservationList";
 
-export default class CurrentReservations extends React.Component {
+export default class CurrentReservations extends Component {
     static propTypes = {
-        reservations: React.PropTypes.array,
-        onItemPressed: React.PropTypes.func,
-        service: React.PropTypes.object
+        reservations: PropTypes.array,
+        onItemPressed: PropTypes.func,
+        service: PropTypes.object
     };
 
     render() {
-        const mainReservation = this.props.reservations;
         return (
             <Card>
                 <CardItem>

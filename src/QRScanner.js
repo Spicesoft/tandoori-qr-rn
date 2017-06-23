@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from "react";
+import React, { Component } from "react";
 import { Alert, StyleSheet, Text, View } from "react-native";
 import Camera from "react-native-camera";
 import { NavigationActions } from "react-navigation";
