@@ -20,7 +20,7 @@ function request(options) {
                 ...options
             })
             .then(response => {
-                if ( response.status == 200 ) {
+                if ( response.status < 400 ) {
                     resolve(response)
                 }
                 else {
