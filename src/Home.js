@@ -44,50 +44,48 @@ class Home extends React.Component {
         const {navigate} = this.props.navigation;
 
         return (
-            <Container style={styles.cont}>
-                <Content>
-                    <Card>
-                        <CardItem header>
-                            <Left>
-                                <Thumbnail
-                                    source={require("./img/logo.png")}
-                                />
-                                <Body>
-                                    <Text>Welcome to the react-native workshop!</Text>
-                                    <Text note>Let's get you a place</Text>
-                                </Body>
-                            </Left>
-                        </CardItem>
-                        <CardItem>
-                            <Left>
-                                <Button
-                                    button
-                                    onPress={() => navigate("QRScanner")}
-                                >
-                                    <Text>Scan a QR code</Text>
-                                </Button>
-                            </Left>
-                            <Right>
-                                <Button
-                                    transparent
-                                    onPress={() => navigate("Service", {id: 68})}
-                                >
-                                    <Text>Shortcut service id=68</Text>
-                                </Button>
-                            </Right>
-                        </CardItem>
-                    </Card>
-                    {this.renderReservationDetail()}
-                    <CurrentReservations
-                        reservations={this.props.currentReservations}
-                        onItemPressed={this.goToReservationDetails.bind(this)}
-                    />
-                    <IncomingReservations
-                        reservations={this.props.incomingReservations}
-                        onItemPressed={this.goToReservationDetails.bind(this)}
-                    />
-                </Content>
-            </Container>
+            <Content style={{flex: 1}}>
+                <Card>
+                    <CardItem header>
+                        <Left>
+                            <Thumbnail
+                                source={require("./img/logo.png")}
+                            />
+                            <Body>
+                                <Text>Welcome to the react-native workshop!</Text>
+                                <Text note>Let's get you a place</Text>
+                            </Body>
+                        </Left>
+                    </CardItem>
+                    <CardItem>
+                        <Left>
+                            <Button
+                                button
+                                onPress={() => navigate("QRScanner")}
+                            >
+                                <Text>Scan a QR code</Text>
+                            </Button>
+                        </Left>
+                        <Right>
+                            <Button
+                                transparent
+                                onPress={() => navigate("Service", {id: 68})}
+                            >
+                                <Text>Shortcut service id=68</Text>
+                            </Button>
+                        </Right>
+                    </CardItem>
+                </Card>
+                {this.renderReservationDetail()}
+                <CurrentReservations
+                    reservations={this.props.currentReservations}
+                    onItemPressed={this.goToReservationDetails.bind(this)}
+                />
+                <IncomingReservations
+                    reservations={this.props.incomingReservations}
+                    onItemPressed={this.goToReservationDetails.bind(this)}
+                />
+            </Content>
         );
     }
 

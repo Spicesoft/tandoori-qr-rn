@@ -1,5 +1,6 @@
 import React from "react";
 import {StackNavigator} from "react-navigation";
+import {Container, Content} from "native-base"
 
 import QRScanner from "./QRScanner";
 import Service from "./Service";
@@ -13,9 +14,17 @@ class App extends React.Component {
     };
     render() {
         if (this.state.loggedIn) {
-            return <LoggedApp />;
+            return (
+                <Container>
+                    <LoggedApp />
+                </Container>
+            );
         }
-        return <Login onLogin={this.onLogin} />;
+        return (
+            <Container>
+                <Login onLogin={this.onLogin} />
+            </Container>
+        );
     }
 
     onLogin = () => {

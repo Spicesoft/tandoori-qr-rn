@@ -1,5 +1,6 @@
 import React, {Component} from "react";
 import {
+    Body,
     Button,
     Container,
     CheckBox,
@@ -33,26 +34,24 @@ export default class Login extends React.Component {
 
     render() {
         return (
-            <Container style={styles.cont}>
-                <Content>
-                    <View style={styles.view}>
-                        <Image style={styles.img} resizeMode="contain" source={require("./img/coworkio.png")}/>
+            <Content>
+                <View style={styles.view}>
+                    <Image style={styles.img} resizeMode="contain" source={require("./img/coworkio.png")}/>
+                </View>
+                <Form>
+                    <Item floatingLabel>
+                        <Label>Username</Label>
+                        <Input value={this.state.username} onChangeText={(text) => this.setState({"username": text})}/>
+                    </Item>
+                    <Item floatingLabel>
+                        <Label>Password</Label>
+                        <Input secureTextEntry={true} value={this.state.password} onChangeText={(text) => this.setState({"password": text})}/>
+                    </Item>
+                    <View style={{justifyContent: "center", flexDirection: "row"}}>
+                        {this.renderButton()}
                     </View>
-                    <Form>
-                        <Item floatingLabel>
-                            <Label>Username</Label>
-                            <Input value={this.state.username} onChangeText={(text) => this.setState({"username": text})}/>
-                        </Item>
-                        <Item floatingLabel>
-                            <Label>Password</Label>
-                            <Input secureTextEntry={true} value={this.state.password} onChangeText={(text) => this.setState({"password": text})}/>
-                        </Item>
-                        <View style={{justifyContent: "center", flexDirection: "row"}}>
-                            {this.renderButton()}
-                        </View>
-                    </Form>
-                </Content>
-            </Container>
+                </Form>
+            </Content>
         );
     }
 
