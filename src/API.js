@@ -1,5 +1,6 @@
 import moment from "moment";
 import qs from "query-string";
+import {AsyncStorage} from "react-native";
 
 
 const ACCOUNT_ID = 6;
@@ -37,10 +38,23 @@ function request(options) {
 
 const API = {
 
-    logout() {
+    async checkLogin() {
+        const storedToken = await AsyncStorage.getItem("@Cowork:token");
+        const storedTokenType = await AsyncStorage.getItem("@Cowork:tokenType");
+        if (storedToken && storedTokenType) {
+            TOKEN = storedToken;
+            TOKEN_TYPE = storedTokenType;
+            return true;
+        }
+        return false;
+    },
+
+    async logout() {
         TOKEN = "";
         TOKEN_TYPE = "";
-        return Promise.resolve();
+
+        await AsyncStorage.setItem("@Cowork:token", "");
+        await AsyncStorage.setItem("@Cowork:tokenType", "");
     },
 
     login(username, password) {
@@ -61,8 +75,12 @@ const API = {
         .then(response => {
             TOKEN = response.access_token;
             TOKEN_TYPE = response.token_type;
-
             console.log("Token:", TOKEN_TYPE, TOKEN);
+
+            return Promise.all([
+                AsyncStorage.setItem("@Cowork:token", TOKEN),
+                AsyncStorage.setItem("@Cowork:tokenType", TOKEN_TYPE),
+            ]);
         });
     },
 

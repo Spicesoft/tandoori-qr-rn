@@ -30,11 +30,8 @@ import ReservationDetail from "./ReservationDetail";
 
 
 class Home extends React.Component {
-
-    static navigationOptions = {
-        title: "CoWork.io",
-    };
-
+    // navigation options are in App.js
+    
     static propTypes = {
         navigation: PropTypes.object,
         currentReservations: PropTypes.array,
@@ -73,12 +70,6 @@ class Home extends React.Component {
                                 onPress={() => navigate("Service", {id: 68})}
                             >
                                 <Text>Shortcut service id=68</Text>
-                            </Button>
-                            <Button
-                                transparent
-                                onPress={() => this.props.screenProps.onLogout()}
-                            >
-                                <Text>Logout</Text>
                             </Button>
                         </Right>
                     </CardItem>
@@ -121,6 +112,7 @@ class Home extends React.Component {
     }
 }
 
+
 const styles = {
     cont: {
         backgroundColor: "#FFFFFF"
@@ -136,7 +128,7 @@ const styles = {
         flex: 1,
         justifyContent: "center"
     }
-}
+};
 
 export default withRequest(Home, {
     requestProps(props) {
