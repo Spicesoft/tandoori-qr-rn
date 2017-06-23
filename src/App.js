@@ -5,7 +5,7 @@ import {Container, Content} from "native-base"
 import QRScanner from "./QRScanner";
 import Service from "./Service";
 import Home from "./Home";
-import ReservationDetail from "./ReservationDetail";
+import ReservationDetailScreen from "./ReservationDetailScreen";
 import Login from "./Login";
 
 class App extends React.Component {
@@ -38,7 +38,7 @@ const LoggedApp = StackNavigator({
   Home: {screen: Home},
   QRScanner: {screen: QRScanner},
   Service: {screen: Service},
-  ReservationDetail: {screen: ReservationDetail}
+  ReservationDetailScreen: {screen: ReservationDetailScreen}
 });
 
 export default App;

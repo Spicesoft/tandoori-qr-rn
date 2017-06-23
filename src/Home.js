@@ -90,7 +90,7 @@ class Home extends React.Component {
     }
 
     goToReservationDetails(reservation) {
-        return this.props.navigation.navigate("ReservationDetail", {reservation: reservation});
+        return this.props.navigation.navigate("ReservationDetailScreen", {reservation: reservation});
     }
 
     getFirstCurrentReservation() {
