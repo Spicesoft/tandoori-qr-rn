@@ -6,6 +6,7 @@ import {
     Alert,
     Image,
     StyleSheet,
+    RefreshControl,
     View, ScrollView
 } from "react-native";
 
@@ -33,6 +34,13 @@ class ServiceWithoutRequest extends Component {
     static navigationOptions = {
         title: "Service",
     };
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            refreshing: false
+        };
+    }
 
     static propTypes = {
         loading: PropTypes.bool,
@@ -73,6 +81,10 @@ class ServiceWithoutRequest extends Component {
 
     }
 
+    _onRefresh() {
+        this.setState({refreshing: true});
+    }
+
     render() {
         if (this.props.loading) {
             return this.renderLoader();
@@ -86,6 +98,9 @@ class ServiceWithoutRequest extends Component {
 
         return (
             <Container style={styles.root}>
+              {/*  TODO refreshControl : refreshControl={
+                  <RefreshControl refreshing={this.state.refreshing} onRefresh={this._onRefresh.bind(this)} />
+                  }>*/}
               <Content>
                 <View style={styles.imageContainer}>
                   <Image source={imageSource} resizeMode="cover" style={styles.image} />
@@ -259,7 +274,7 @@ function extractRanges(availabilityRanges, openingHours) {
 }
 
 const Service = withRequest(ServiceWithoutRequest, {
-    requestProps(props) {
+    requestProps: function request(props) {
         const {id} = props.navigation.state.params;
         return Promise
             .all([
