@@ -3,7 +3,7 @@ import qs from "query-string";
 import {AsyncStorage} from "react-native";
 
 
-const ACCOUNT_ID = 6;
+let ACCOUNT_ID = 0;
 let TOKEN = "";
 let TOKEN_TYPE = "";
 
@@ -44,6 +44,13 @@ const API = {
         if (storedToken && storedTokenType) {
             TOKEN = storedToken;
             TOKEN_TYPE = storedTokenType;
+            try {
+                const details = await API.getAccountDetails();
+            }
+            catch (e) {
+                await API.logout();
+                return false;
+            }
             return true;
         }
         return false;
@@ -57,7 +64,7 @@ const API = {
         await AsyncStorage.setItem("@Cowork:tokenType", "");
     },
 
-    login(username, password) {
+    async login(username, password) {
         const data = new FormData();
         data.append('grant_type', 'password');
         data.append('client_id', CLIENT_ID);
@@ -67,21 +74,38 @@ const API = {
         data.append("random", Math.random()); // solve "Invalid request" bug
 
         // use fetch instead of request to let fetch decides the headers
-        return fetch(`${API_ROOT}/o/token/`, {
+        let response = await fetch(`${API_ROOT}/o/token/`, {
             method: "POST",
             body: data
-        })
-        .then(response => response.json())
-        .then(response => {
-            TOKEN = response.access_token;
-            TOKEN_TYPE = response.token_type;
-            console.log("Token:", TOKEN_TYPE, TOKEN);
-
-            return Promise.all([
-                AsyncStorage.setItem("@Cowork:token", TOKEN),
-                AsyncStorage.setItem("@Cowork:tokenType", TOKEN_TYPE),
-            ]);
         });
+        response = await response.json();
+
+        TOKEN = response.access_token;
+        TOKEN_TYPE = response.token_type;
+        console.log("Token:", TOKEN_TYPE, TOKEN);
+
+        await Promise.all([
+            AsyncStorage.setItem("@Cowork:token", TOKEN),
+            AsyncStorage.setItem("@Cowork:tokenType", TOKEN_TYPE),
+        ]);
+        const details = await API.getAccountDetails();
+        console.log(details);
+    },
+
+    getAccountDetails() {
+        return request({
+                url: `${API_ROOT}/accounts/me/`,
+            })
+            .then(response => {
+                if (response.status === 403) {
+                    // token has expired
+                    throw new Error("Token expired");
+                }
+                return response.json();
+            })
+            .then(details => {
+                ACCOUNT_ID = details.pk;
+            });
     },
 
     getServiceDetails(id) {
