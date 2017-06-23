@@ -43,7 +43,7 @@ class ServiceWithoutRequest extends Component {
     confirmReservation(range) {
         Alert.alert(
             'Confirm Reservation',
-            'My Alert Msg',
+            `Confirm reservation for service ${this.props.service.name}`,
             [
                 {
                      text: 'Cancel',
