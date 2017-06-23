@@ -19,6 +19,7 @@ import {
     Image,
     View
 } from "react-native";
+import moment from "moment";
 
 import withRequest from "./hoc/withRequest";
 
@@ -94,7 +95,10 @@ class Home extends React.Component {
     }
 
     getFirstCurrentReservation() {
-        return this.props.currentReservations ? this.props.currentReservations[0] : null;
+        const list = [...this.props.currentReservations || []];
+        // find the reservation that ends first
+        list.sort((a, b) => moment(a.to_datetime) - moment(b.to_datetime));
+        return list[0] || null;
     }
 
     renderReservationDetail() {
