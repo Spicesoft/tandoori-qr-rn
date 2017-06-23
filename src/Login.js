@@ -10,25 +10,23 @@ import {
     Label,
     ListItem,
     Right,
-    Text
+    Text,
+    Toast
 } from "native-base";
 import {
     Dimensions,
     Image,
-    View
+    View,
+    Alert
 } from "react-native";
 
 import API from "./API";
 
 export default class Login extends React.Component {
 
-    static navigationOptions = {
-        title: "CoWork.io",
-    };
-
     state = {
-        username: "",
-        password: ""
+        username: "pierre-andre.svetchine@example.com",
+        password: "tandoori"
     };
 
     render() {
@@ -69,7 +67,7 @@ export default class Login extends React.Component {
                    duration: 2000,
 
                });
-               this.props.navigation.navigate("Home");
+               this.props.onLogin();
            })
            .catch((r) => { Alert.alert("error", JSON.stringify(r))});
     }

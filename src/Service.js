@@ -80,9 +80,9 @@ class ServiceWithoutRequest extends Component {
 
         const {service} = this.props;
         const image = service.images[0]; // TODO default image
-        const imageSource = {
-            uri: image.medium_image_url
-        };
+        const imageSource = image 
+            ? {uri: image.medium_image_url}
+            : require("./img/test.jpg");
 
         return (
             <Container style={styles.root}>

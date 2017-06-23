@@ -1,19 +1,24 @@
 import moment from "moment";
 import qs from "query-string";
 
+
 const ACCOUNT_ID = 6;
-const TOKEN = "9db9256dcc304764f38545a5c221e886a24b0911";
+let TOKEN = "";
+let TOKEN_TYPE = "";
+
 const DOMAIN = "neo-yolo.tandoori.pro";
 const API_ROOT = `https://${DOMAIN}/api/v1`;
 
-import {Alert} from "react-native";
+const CLIENT_ID = "knvaPLwDO1L9DPn3RLtIwmfH6ARMtIIxRrX5QwYn";
+const CLIENT_SECRET = "ernC9olZ0yeuOLwhH5wmpGXs1LoXhaXRdazDh1wSvrMzsGtNS7C8ahSTTreeDjSJMgAOMysAVruGIPam3rTye6iwytGFw3wAlI2tCXwh92HTQqhG2OAQfjZALCVDc5GM";
 
 function request(options) {
     return new Promise((resolve, reject) => {
+        console.log("request", `${TOKEN_TYPE} ${TOKEN}`, options)
         fetch(options.url, {
                 method: "GET",
                 headers: {
-                    "Authorization": `Token ${TOKEN}`,
+                    "Authorization": `${TOKEN_TYPE} ${TOKEN}`,
                     "Accept": "application/json",
                     "Content-Type": "application/json"
                 },
@@ -33,8 +38,26 @@ function request(options) {
 const API = {
 
     login(username, password) {
-        // TODO
-        return Promise.resolve(TOKEN);
+        const data = new FormData();
+        data.append('grant_type', 'password');
+        data.append('client_id', CLIENT_ID);
+        data.append('client_secret', CLIENT_SECRET);
+        data.append('username', username);
+        data.append('password', password);
+        data.append("random", Math.random()); // solve "Invalid request" bug
+
+        // use fetch instead of request to let fetch decides the headers
+        return fetch(`${API_ROOT}/o/token/`, {
+            method: "POST",
+            body: data
+        })
+        .then(response => response.json())
+        .then(response => {
+            TOKEN = response.access_token;
+            TOKEN_TYPE = response.token_type;
+
+            console.log("Token:", TOKEN_TYPE, TOKEN);
+        });
     },
 
     getServiceDetails(id) {

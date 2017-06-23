@@ -8,12 +8,21 @@ import ReservationDetail from "./ReservationDetail";
 import Login from "./Login";
 
 class App extends React.Component {
-  render() {
-    if (true) {
-      return <LoggedApp/>;
+    state = {
+        loggedIn: false
+    };
+    render() {
+        if (this.state.loggedIn) {
+            return <LoggedApp />;
+        }
+        return <Login onLogin={this.onLogin} />;
     }
-    return <Login/>;
-  }
+
+    onLogin = () => {
+        this.setState({
+            loggedIn: true
+        });
+    }
 }
 
 const LoggedApp = StackNavigator({
@@ -21,7 +30,6 @@ const LoggedApp = StackNavigator({
   QRScanner: {screen: QRScanner},
   Service: {screen: Service},
   ReservationDetail: {screen: ReservationDetail}
-
 });
 
 export default App;
