@@ -6,6 +6,7 @@ import {
     Card,
     CardItem,
     Content,
+    Icon,
     Left,
     Right,
     Spinner,
@@ -50,10 +51,11 @@ class Home extends React.Component {
                     <CardItem>
                         <Left>
                             <Button
-                                button
+                                iconRight
                                 onPress={() => navigate("QRScanner")}
                             >
                                 <Text>Scan a QR code</Text>
+                                <Icon ios="ios-qr-scanner" android="md-qr-scanner"/>
                             </Button>
                         </Left>
                         <Right>
