@@ -4,7 +4,6 @@ import moment from "moment";
 import PushNotification from 'react-native-push-notification';
 import {
     Alert,
-    Image,
     View
 } from "react-native";
 import {
@@ -12,12 +11,14 @@ import {
     Content,
     Card,
     CardItem,
+    Text,
     Toast,
     Spinner,
     H1,
     H3
 } from "native-base";
 
+import Image from "./Image";
 import API from "./API";
 import withRequest from "./hoc/withRequest";
 

@@ -13,7 +13,6 @@ import {
     Text,
     Thumbnail
 } from "native-base";
-import { Image, View } from "react-native";
 import moment from "moment";
 
 import withRequest from "./hoc/withRequest";

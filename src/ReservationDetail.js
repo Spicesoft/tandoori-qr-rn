@@ -7,8 +7,8 @@ import {
     Spinner,
     Text
 } from "native-base";
-import { Image, View } from "react-native";
 
+import Image from "./Image";
 import API from "./API.js";
 import withRequest from "./hoc/withRequest";
 
