@@ -18,9 +18,9 @@ import {
     H3
 } from "native-base";
 
-import Image from "./Image";
-import API from "./API";
-import withRequest from "./hoc/withRequest";
+import Image from "../Image";
+import API from "../../API";
+import withRequest from "../../hoc/withRequest";
 
 
 PushNotification.configure({
@@ -116,7 +116,7 @@ class ServiceWithoutRequest extends Component {
         const image = service.images[0]; // TODO default image
         const imageSource = image
             ? { uri: image.medium_image_url }
-            : require("./img/test.jpg");
+            : require("../../img/test.jpg");
 
         return (
             <Content>

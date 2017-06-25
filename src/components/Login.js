@@ -12,7 +12,7 @@ import {
 } from "native-base";
 import { Dimensions, Image, View, Alert } from "react-native";
 
-import API from "./API";
+import API from "../API";
 
 export default class Login extends React.Component {
     state = {
@@ -28,7 +28,7 @@ export default class Login extends React.Component {
                     <Image
                         style={styles.img}
                         resizeMode="contain"
-                        source={require("./img/coworkio.png")}
+                        source={require("../img/coworkio.png")}
                     />
                 </View>
                 <Form>

@@ -9,8 +9,8 @@ import {
 } from "native-base";
 
 import Image from "./Image";
-import API from "./API.js";
-import withRequest from "./hoc/withRequest";
+import API from "../API.js";
+import withRequest from "../hoc/withRequest";
 
 class ReservationDetailComponent extends Component {
     static propTypes = {
@@ -69,7 +69,7 @@ class ReservationDetailComponent extends Component {
                 return { uri: images[0].medium_image_url };
             }
         }
-        return require("./img/test.jpg");
+        return require("../img/test.jpg");
     }
 
     renderServiceDescription() {

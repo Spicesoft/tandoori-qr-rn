@@ -2,12 +2,12 @@ import React, { Component } from "react";
 import { StackNavigator } from "react-navigation";
 import { Container, Content, Text, Button } from "native-base";
 
-import QRScanner from "./QRScanner";
-import Service from "./Service";
-import Home from "./Home";
-import ReservationDetailScreen from "./ReservationDetailScreen";
-import Login from "./Login";
+import QRScanner from "./components/screens/QRScanner";
+import Service from "./components/screens/Service";
+import Home from "./components/screens/Home";
+import ReservationDetailScreen from "./components/screens/ReservationDetailScreen";
 
+import Login from "./components/Login";
 import API from "./API";
 
 class App extends Component {

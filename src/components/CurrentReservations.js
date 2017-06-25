@@ -1,20 +1,21 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { Card, CardItem, Container, Text } from "native-base";
+import { Card, CardItem, Text } from "native-base";
 
 import ReservationList from "./ReservationList";
 
-export default class IncomingReservations extends Component {
+export default class CurrentReservations extends Component {
     static propTypes = {
         reservations: PropTypes.array,
-        onItemPressed: PropTypes.func
+        onItemPressed: PropTypes.func,
+        service: PropTypes.object
     };
 
     render() {
         return (
             <Card>
                 <CardItem>
-                    <Text>Incoming reservations</Text>
+                    <Text>All Current reservations</Text>
                 </CardItem>
                 <ReservationList
                     reservations={this.props.reservations}

@@ -15,11 +15,11 @@ import {
 } from "native-base";
 import moment from "moment";
 
-import withRequest from "./hoc/withRequest";
-import API from "./API";
-import CurrentReservations from "./CurrentReservations";
-import IncomingReservations from "./IncomingReservations";
-import ReservationDetail from "./ReservationDetail";
+import withRequest from "../../hoc/withRequest";
+import API from "../../API";
+import CurrentReservations from "../CurrentReservations";
+import IncomingReservations from "../IncomingReservations";
+import ReservationDetail from "../ReservationDetail";
 
 class Home extends React.Component {
     // navigation options are in App.js
@@ -38,7 +38,7 @@ class Home extends React.Component {
                 <Card>
                     <CardItem header>
                         <Left>
-                            <Thumbnail source={require("./img/logo.png")} />
+                            <Thumbnail source={require("../../img/logo.png")} />
                             <Body>
                                 <Text>
                                     Welcome to the react-native workshop!

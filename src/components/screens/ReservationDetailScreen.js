@@ -1,9 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 
-import API from "./API.js";
-import withRequest from "./hoc/withRequest";
-import ReservationDetail from "./ReservationDetail";
+import ReservationDetail from "../ReservationDetail";
 
 export default class ReservationDetailScreen extends Component {
     static navigationOptions = {
