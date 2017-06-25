@@ -6,7 +6,10 @@
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "test": "jest",
     "prettier": "prettier ./*.js src/**/*.js --write --tab-width 4",
-    "build-android-release": "./scripts/build-android-release.sh"
+    "android:build-release": "./scripts/build-android-release.sh",
+    "android:uninstall": "adb uninstall com.qrcoworkio",
+    "android:clean-install-dev": "npm run android:uninstall && react-native run-android",
+    "android:clean-install-release": "npm run android:uninstall && react-native run-android --variant=release"
   },
   "dependencies": {
     "moment": "2.18.1",
