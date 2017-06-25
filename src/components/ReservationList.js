@@ -24,43 +24,35 @@ export default class ReservationList extends Component {
     renderReservations() {
         const { reservations } = this.props;
         if (!reservations) {
-            return (
-                <CardItem style={styles.itemWSpinner}>
-                    <Spinner color="rgb(70, 130, 180)" />
-                </CardItem>
-            );
+            return null;
         }
-        return reservations.map(reservation => {
-            if (reservation.status === "A") {
-                return (
-                    <CardItem
-                        button
-                        onPress={() => this.props.onItemPressed(reservation)}
-                        key={reservation.pk}
-                    >
-                        <Left>
-                            <Text style={styles.marginRight}>
-                                {reservation.service.type.name}
-                            </Text>
-                        </Left>
-                        <Body>
-                            {this.renderReservationTime(
-                                reservation.from_datetime,
-                                reservation.to_datetime
-                            )}
-                        </Body>
-                        <Right>
-                            <Icon name="arrow-forward" />
-                        </Right>
-                    </CardItem>
-                );
-            }
-        });
+        return reservations.map(reservation => 
+            <CardItem
+                button
+                onPress={() => this.props.onItemPressed(reservation)}
+                key={reservation.pk}
+            >
+                <Left>
+                    <Text style={styles.marginRight}>
+                        {reservation.service.type.name}
+                    </Text>
+                </Left>
+                <Body>
+                    {this.renderReservationTime(
+                        reservation.from_datetime,
+                        reservation.to_datetime
+                    )}
+                </Body>
+                <Right>
+                    <Icon name="arrow-forward" />
+                </Right>
+            </CardItem>
+        );
     }
 
     renderReservationTime(fromDate, toDate) {
-        from = moment(fromDate).format("HH:mm");
-        to = moment(toDate).format("HH:mm");
+        const from = moment(fromDate).format("HH:mm");
+        const to = moment(toDate).format("HH:mm");
         if (from === "00:00" && to == "00:00") {
             return <Text>All day</Text>;
         }

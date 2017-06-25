@@ -7,18 +7,27 @@ import ReservationList from "./ReservationList";
 export default class CurrentReservations extends Component {
     static propTypes = {
         reservations: PropTypes.array,
-        onItemPressed: PropTypes.func,
-        service: PropTypes.object
+        onItemPressed: PropTypes.func
     };
 
     render() {
+        const { reservations } = this.props;
+        if (!reservations || reservations.length === 0) {
+            return (
+                <Card>
+                    <CardItem>
+                        <Text>No current reservations</Text>
+                    </CardItem>
+                </Card>
+            );
+        }
         return (
             <Card>
                 <CardItem>
                     <Text>All Current reservations</Text>
                 </CardItem>
                 <ReservationList
-                    reservations={this.props.reservations}
+                    reservations={reservations}
                     onItemPressed={this.props.onItemPressed}
                 />
             </Card>

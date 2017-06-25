@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+import {View} from "react-native";
 import {
     Body,
     Button,
@@ -64,18 +65,26 @@ class Home extends React.Component {
                             >
                                 <Text>Shortcut service id=68</Text>
                             </Button>
+                            <Button
+                                transparent
+                                onPress={() => API.refreshToken()}
+                            >
+                                <Text>refresh token</Text>
+                            </Button>
                         </Right>
                     </CardItem>
                 </Card>
-                {this.renderReservationDetail()}
-                <CurrentReservations
-                    reservations={this.props.currentReservations}
-                    onItemPressed={this.goToReservationDetails.bind(this)}
-                />
-                <IncomingReservations
-                    reservations={this.props.incomingReservations}
-                    onItemPressed={this.goToReservationDetails.bind(this)}
-                />
+                {this.props.loading ? this.renderLoader() : <View>
+                    {this.renderReservationDetail()}
+                    <CurrentReservations
+                        reservations={this.props.currentReservations}
+                        onItemPressed={this.goToReservationDetails.bind(this)}
+                    />
+                    <IncomingReservations
+                        reservations={this.props.incomingReservations}
+                        onItemPressed={this.goToReservationDetails.bind(this)}
+                    />
+                </View>}
             </Content>
         );
     }
@@ -103,6 +112,9 @@ class Home extends React.Component {
                 />
             );
         }
+    }
+
+    renderLoader() {
         return (
             <CardItem style={styles.itemWSpinner}>
                 <Spinner color="rgb(70, 130, 180)" />

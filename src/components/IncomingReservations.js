@@ -11,13 +11,23 @@ export default class IncomingReservations extends Component {
     };
 
     render() {
+        const { reservations } = this.props;
+        if (!reservations || reservations.length === 0) {
+            return (
+                <Card>
+                    <CardItem>
+                        <Text>No incoming reservations</Text>
+                    </CardItem>
+                </Card>
+            );
+        }
         return (
             <Card>
                 <CardItem>
                     <Text>Incoming reservations</Text>
                 </CardItem>
                 <ReservationList
-                    reservations={this.props.reservations}
+                    reservations={reservations}
                     onItemPressed={this.props.onItemPressed}
                 />
             </Card>

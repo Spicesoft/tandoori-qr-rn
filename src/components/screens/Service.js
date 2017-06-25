@@ -70,37 +70,46 @@ class ServiceWithoutRequest extends Component {
         );
     }
 
-    makeReservation(range) {
-        API.createReservation(this.props.service.pk, range)
-            .then(() => {
-                PushNotification.localNotificationSchedule({
-                    /* Android Only Properties */
-                    largeIcon: "ic_cowork",
-                    smallIcon: "ic_cowork",
-                    bigText: "You're booking is about to expire. Do you want to extend your booking ?",
-                    subText: this.props.service.name,
-                    color: "#0074A6",
-                    vibration: 300,
+    async makeReservation(range) {
+        try {
+            await API.createReservation(this.props.service.pk, range);
+        }
+        catch (response) {
+            Alert.alert("error creating a reservation", JSON.stringify(response));
 
-                    /* iOS and Android properties */
-                    title: "Booking is expiring",
-                    message: "You're booking is about to expire...",
-                    date: new Date(range.to_datetime - (5 * 60 * 1000)), // 5min before the end
-                    serviceId: this.props.service.pk
-                });
-
-                Toast.show({
-                    text: "Reservation success",
-                    position: "bottom",
-                    buttonText: "Okay",
-                    duration: 2000
-                });
-
-                this.props.navigation.navigate("Home");
-            })
-            .catch(r => {
-                Alert.alert("error", JSON.stringify(r));
+            Toast.show({
+                text: "Reservation failure",
+                position: "bottom",
+                buttonText: "Okay",
+                duration: 2000
             });
+            return;
+        }
+
+        PushNotification.localNotificationSchedule({
+            /* Android Only Properties */
+            largeIcon: "ic_cowork",
+            smallIcon: "ic_cowork",
+            bigText: "You're booking is about to expire. Do you want to extend your booking ?",
+            subText: this.props.service.name,
+            color: "#0074A6",
+            vibration: 300,
+
+            /* iOS and Android properties */
+            title: "Booking is expiring",
+            message: "You're booking is about to expire...",
+            date: new Date(range.to_datetime - (5 * 60 * 1000)), // 5min before the end
+            serviceId: this.props.service.pk
+        });
+
+        Toast.show({
+            text: "Reservation success",
+            position: "bottom",
+            buttonText: "Okay",
+            duration: 2000
+        });
+
+        this.props.navigation.navigate("Home");
     }
 
     _onRefresh() {
