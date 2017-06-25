@@ -14,7 +14,7 @@ import moment from "moment";
 export default class ReservationList extends Component {
     static propTypes = {
         reservations: PropTypes.array,
-        onItemPressed: PropTypes.function
+        onItemPressed: PropTypes.func
     };
 
     render() {

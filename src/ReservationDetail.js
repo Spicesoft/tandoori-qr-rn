@@ -16,8 +16,7 @@ class ReservationDetailComponent extends Component {
     static propTypes = {
         reservation: PropTypes.object.isRequired,
         cardTitle: PropTypes.string.isRequired,
-        service: PropTypes.object,
-        serviceId: PropTypes.int
+        service: PropTypes.object
     };
 
     render() {

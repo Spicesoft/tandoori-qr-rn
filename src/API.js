@@ -15,7 +15,7 @@ const CLIENT_SECRET =
 
 async function request(options) {
     console.log("request", `${TOKEN_TYPE} ${TOKEN}`, options);
-    const response = fetch(options.url, {
+    const response = await fetch(options.url, {
         method: "GET",
         headers: {
             Authorization: `${TOKEN_TYPE} ${TOKEN}`,
