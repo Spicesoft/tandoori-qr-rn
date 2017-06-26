@@ -23,19 +23,6 @@ import API from "../../API";
 import withRequest from "../../hoc/withRequest";
 
 
-PushNotification.configure({
-    onNotification: function(notification) {
-        console.log( 'NOTIFICATION:', notification );
-        // react-navigation doesn't work outside a component
-        // We can't navigate to a specific location without adding this hack (TODO)
-        // https://github.com/react-community/react-navigation/issues/1439
-
-        // if(notification.serviceId) {
-        //     this.props.navigation.navigate("Service", {id: notification.serviceId});
-        // }
-    }
-});
-
 class ServiceWithoutRequest extends Component {
     static navigationOptions = {
         title: "Service"
@@ -90,16 +77,19 @@ class ServiceWithoutRequest extends Component {
             /* Android Only Properties */
             largeIcon: "ic_cowork",
             smallIcon: "ic_cowork",
-            bigText: "You're booking is about to expire. Do you want to extend your booking ?",
+            bigText: "Your reservation is about to expire. Do you want to extend it?",
             subText: this.props.service.name,
             color: "#0074A6",
             vibration: 300,
 
             /* iOS and Android properties */
-            title: "Booking is expiring",
-            message: "You're booking is about to expire...",
-            date: new Date(range.to_datetime - (5 * 60 * 1000)), // 5min before the end
-            serviceId: this.props.service.pk
+            title: "Reservation is expiring",
+            message: "Your reservation is about to expire...",
+            date: moment(range.to_datetime).subtract(5, "minutes").toDate(),
+            // use this line to debug notifications (notif = now + 20 seconds)
+            //date: moment().add(20, "s").toDate(),
+            serviceId: this.props.service.pk,
+            reservationEnd: range.to_datetime.format()
         });
 
         Toast.show({
@@ -109,7 +99,7 @@ class ServiceWithoutRequest extends Component {
             duration: 2000
         });
 
-        this.props.navigation.navigate("Home");
+        this.props.navigation.goBack();
     }
 
     _onRefresh() {
@@ -279,15 +269,17 @@ function insideOpeningHours(start, end, centerOpeningHours) {
     return opening <= start && end <= closing;
 }
 
-function extractRanges(availabilityRanges, openingHours) {
-    const nowFloored = moment();
-    if (nowFloored.minutes() < 30) {
-        nowFloored.startOf("hour");
-    } else {
-        nowFloored.startOf("hour").add(30, "minutes");
+function extractRanges(availabilityRanges, openingHours, start=null) {
+    // used provided start time or nowFloored
+    if (!start) {
+        const nowFloored = moment();
+        if (nowFloored.minutes() < 30) {
+            nowFloored.startOf("hour");
+        } else {
+            nowFloored.startOf("hour").add(30, "minutes");
+        }
+        start = nowFloored;
     }
-
-    const start = nowFloored;
     const nextHalfHour = moment(start).add(30, "minutes");
     const nextHour = moment(start).add(60, "minutes");
     const nextTwoHours = moment(start).add(120, "minutes");
@@ -309,7 +301,7 @@ function extractRanges(availabilityRanges, openingHours) {
 
 const Service = withRequest(ServiceWithoutRequest, {
     requestProps: function request(props) {
-        const { id } = props.navigation.state.params;
+        const { id, endOfReservationToExtend } = props.navigation.state.params;
         return Promise.all([
             API.getServiceDetails(id),
             API.getAvailabilityRangesForService(id)
@@ -320,7 +312,8 @@ const Service = withRequest(ServiceWithoutRequest, {
                     service: service,
                     ranges: extractRanges(
                         availabilityRanges,
-                        centerOpeningHours
+                        centerOpeningHours,
+                        endOfReservationToExtend
                     )
                 };
             });

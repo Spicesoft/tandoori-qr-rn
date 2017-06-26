@@ -63,13 +63,7 @@ class Home extends React.Component {
                                 transparent
                                 onPress={() => navigate("Service", { id: 68 })}
                             >
-                                <Text>Shortcut service id=68</Text>
-                            </Button>
-                            <Button
-                                transparent
-                                onPress={() => API.refreshToken()}
-                            >
-                                <Text>refresh token</Text>
+                                <Text>Shortcut Béber Pool</Text>
                             </Button>
                         </Right>
                     </CardItem>

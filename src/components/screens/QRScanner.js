@@ -1,23 +1,9 @@
 import React, { Component } from "react";
 import { Alert, StyleSheet, Text, View } from "react-native";
 import Camera from "react-native-camera";
-import { NavigationActions } from "react-navigation";
 
-function createNavigateToServiceAction(id) {
-    // https://github.com/lwansbrough/react-native-camera/issues/701#issuecomment-303833497
-    return NavigationActions.reset({
-        index: 1,
-        actions: [
-            NavigationActions.navigate({
-                routeName: "Home"
-            }),
-            NavigationActions.navigate({
-                routeName: "Service",
-                params: { id } // passed as props to Service screen
-            })
-        ]
-    });
-}
+import createNavigateToServiceAction from "../../utils/createNavigateToServiceAction";
+
 
 const ROOT_URL = "https://qr.cowork.io";
 const serviceRegExp = new RegExp(
@@ -59,7 +45,7 @@ export default class QRScanner extends Component {
     }
 
     navigateToService(id) {
-        this.props.navigation.dispatch(createNavigateToServiceAction(id));
+        this.props.navigation.dispatch(createNavigateToServiceAction({ id }));
     }
 
     onBarCodeRead = ev => {

@@ -1,6 +1,8 @@
 import React, { Component } from "react";
-import { StackNavigator } from "react-navigation";
+import { StackNavigator, NavigationActions } from "react-navigation";
 import { Container, Content, Text, Button } from "native-base";
+import PushNotification from "react-native-push-notification";
+import moment from "moment";
 
 import QRScanner from "./components/screens/QRScanner";
 import Service from "./components/screens/Service";
@@ -9,6 +11,7 @@ import ReservationDetailScreen from "./components/screens/ReservationDetailScree
 
 import Login from "./components/Login";
 import API from "./API";
+import createNavigateToServiceAction from "./utils/createNavigateToServiceAction";
 
 class App extends Component {
     state = {
@@ -23,6 +26,19 @@ class App extends Component {
                 loggedIn
             });
         });
+
+        PushNotification.configure({
+            onNotification: (notification) => {
+                console.log( 'NOTIFICATION:', notification );
+                if (this.navigator) {
+                    this.navigator.dispatch(createNavigateToServiceAction({
+                        id: notification.serviceId, 
+                        endOfReservationToExtend: moment(notification.reservationEnd)
+                    }));
+                }
+            }
+        });
+
     }
 
     render() {
@@ -37,6 +53,7 @@ class App extends Component {
             return (
                 <Container>
                     <LoggedApp
+                        ref={nav => {this.navigator = nav;}}
                         screenProps={{
                             onLogout: this.onLogout
                         }}
