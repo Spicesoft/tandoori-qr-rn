@@ -14,7 +14,7 @@ import { Dimensions, Image, View, Alert } from "react-native";
 
 import API from "../API";
 
-export default class Login extends React.Component {
+export default class Login extends Component {
     state = {
         username: "pierre-andre.svetchine@example.com",
         password: "tandoori",

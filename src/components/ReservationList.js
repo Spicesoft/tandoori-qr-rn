@@ -1,14 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import {
-    Body,
-    CardItem,
-    Icon,
-    Left,
-    Right,
-    Text,
-    Spinner
-} from "native-base";
+import { Body, CardItem, Icon, Left, Right, Text } from "native-base";
 import moment from "moment";
 
 export default class ReservationList extends Component {
@@ -26,8 +18,8 @@ export default class ReservationList extends Component {
         if (!reservations) {
             return null;
         }
-        return reservations.map(reservation => 
-            <CardItem
+        return reservations.map(reservation =>
+            (<CardItem
                 button
                 onPress={() => this.props.onItemPressed(reservation)}
                 key={reservation.pk}
@@ -46,7 +38,7 @@ export default class ReservationList extends Component {
                 <Right>
                     <Icon name="arrow-forward" />
                 </Right>
-            </CardItem>
+            </CardItem>)
         );
     }
 

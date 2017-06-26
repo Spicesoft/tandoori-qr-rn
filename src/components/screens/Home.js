@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import {View} from "react-native";
+import { View } from "react-native";
 import {
     Body,
     Button,
@@ -22,7 +22,7 @@ import CurrentReservations from "../CurrentReservations";
 import IncomingReservations from "../IncomingReservations";
 import ReservationDetail from "../ReservationDetail";
 
-class Home extends React.Component {
+class Home extends Component {
     // navigation options are in App.js
 
     static propTypes = {

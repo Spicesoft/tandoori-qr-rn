@@ -1,12 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import moment from "moment";
-import {
-    Card,
-    CardItem,
-    Spinner,
-    Text
-} from "native-base";
+import { Card, CardItem, Spinner, Text } from "native-base";
 
 import Image from "./Image";
 import API from "../API.js";

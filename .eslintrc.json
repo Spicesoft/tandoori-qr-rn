@@ -1,0 +1,121 @@
+{
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended"
+  ],
+  "parser": "babel-eslint",
+  "parserOptions": {
+    "sourceType": "module"
+  },
+  "plugins": [
+    "react",
+    "import"
+  ],
+  "env": {
+    "es6": true
+  },
+  "globals": {
+    "console": true,
+    "require": true,
+    "fetch": true
+  },
+  "rules": {
+    /* Possible errors */
+    "no-console": "off", // disallow use of console
+    "no-control-regex": "warn", // disallow control characters in regular expressions
+    "no-empty": "warn", // disallow empty statements
+    "no-extra-boolean-cast": "warn", // disallow double-negation boolean casts in a boolean context
+    "no-extra-semi": "warn", // disallow unnecessary semicolons
+    "no-func-assign": "warn", // disallow overwriting functions written as function declarations
+    "no-inner-declarations": "warn", // disallow function or variable declarations in nested blocks
+    "no-regex-spaces": "warn", // disallow multiple spaces in a regular expression literal
+    "no-sparse-arrays": "warn", // disallow sparse arrays
+    "no-unreachable": "warn", // disallow unreachable statements after a return, throw, continue, or break statement
+    "no-unsafe-negation": "error",
+    "valid-jsdoc": "warn", // Ensure JSDoc comments are valid (off by default)
+
+    /* Best practices */
+    "curly": "error", //specify curly brace conventions for all control statements
+    "default-case": "warn", // require default case in switch statements (off by default)
+    "dot-notation": ["warn"], // encourages use of dot notation whenever possible
+    "eqeqeq": ["error", "allow-null"], // require the use of === and !==
+    "no-alert": "warn", // disallow the use of alert, confirm, and prompt
+    "no-caller": "warn", // disallow use of arguments.caller or arguments.callee
+    "no-div-regex": "warn", // disallow division operators explicitly at beginning of regular expression (off by default)
+    "no-else-return": "warn", // disallow else after a return in an if (off by default)
+    "no-extend-native": "error", // disallow adding to native types
+    "no-extra-bind": "warn", // disallow unnecessary function binding
+    "no-fallthrough": "warn", // disallow fallthrough of case statements
+    "no-floating-decimal": "warn", // disallow the use of leading or trailing decimal points in numeric literals (off by default)
+    "no-global-assign": "error",
+    "no-labels": "warn", // disallow use of labeled statements
+    "no-lone-blocks": "warn", // disallow unnecessary nested blocks
+    "no-loop-func": "warn", // disallow creation of functions within loops
+    "no-multi-str": "warn", // disallow use of multiline strings
+    "no-new": "warn", // disallow use of new operator when not part of the assignment or comparison
+    "no-new-wrappers": "error", // disallows creating new instances of String,Number, and Boolean
+    "no-octal-escape": "error", // disallow use of octal escape sequences in string literals, such as var foo = "Copyright \251";
+    "no-proto": "warn", // disallow usage of __proto__ property
+    "no-return-assign": "error", // disallow use of assignment in return statement
+    "no-script-url": "error", // disallow use of javascript: urls.
+    "no-sequences": "warn", // disallow use of comma operator
+    "no-throw-literal": "error", // restrict what can be thrown as an exception (off by default)
+    "no-unused-expressions": "warn", // disallow usage of expressions in statement position
+    "no-with": "error", // disallow use of the with statement
+    "radix": "error", // require use of the second argument for parseInt() (off by default)
+    "wrap-iife": "error", // require immediate function invocation to be wrapped in parentheses (off by default)
+    "yoda": "warn", //  require or disallow Yoda conditions
+
+    /* Variables */
+    "no-catch-shadow": "error", // disallow the catch clause parameter name being the same as a variable in the outer scope (off by default in the node environment)
+    "no-label-var": "error", // disallow labels that share a name with a variable
+    "no-shadow": "warn", // disallow declaration of variables already declared in the outer scope
+    "no-shadow-restricted-names": "error", // disallow shadowing of names such as arguments
+    "no-undef-init": "error", // disallow use of undefined when initializing variables
+    "no-undefined": "warn", // disallow use of undefined variable (off by default)
+    "no-unused-vars":  ["error", {"vars": "all", "args": "none"}], // disallow declaration of variables that are not used in the code
+    "no-use-before-define": "warn", // disallow use of variables before they are defined
+
+    /* Node.js */
+
+    /* Stylistic Issues */
+    "brace-style": ["warn", "stroustrup"], // enforce one true brace style (off by default)
+    "indent": ["warn", 4, {"SwitchCase": 1}], // this option sets a specific tab width for your code (off by default)
+    "comma-spacing": ["error", {"before": false, "after": true}], // enforce spacing before and after comma
+    "comma-style": ["error", "last"], // enforce one true comma style (off by default)
+    "consistent-this": ["warn", "self"], // enforces consistent naming when capturing the current execution context (off by default)
+    "eol-last": "warn", // enforce newline at the end of file, with no multiple empty lines
+    "key-spacing": "warn", // enforces spacing between keys and values in object literal properties
+    "new-cap": ["warn", { "capIsNew": false }], // require a capital letter for constructors
+    "new-parens": "error", // disallow the omission of parentheses when invoking a constructor with no arguments
+    "no-array-constructor": "warn", // disallow use of the Array constructor
+    "no-lonely-if": "warn", // disallow if as the only statement in an else block (off by default)
+    "no-nested-ternary": "warn", // disallow nested ternary expressions (off by default)
+    "no-new-object": "error", // disallow use of the Object constructor
+    "no-spaced-func": "warn", // disallow space between function identifier and application
+    "no-trailing-spaces": "warn", // disallow trailing whitespace at the end of lines
+    "quote-props": ["error", "as-needed", {"keywords": true, "unnecessary": false}], // quotes will be enforced when they are strictly required, and unnecessary quotes will cause warnings
+    "quotes": ["warn", "double", "avoid-escape"], // specify whether double or single quotes should be used
+    "semi": ["error", "always"], // require or disallow use of semicolons instead of ASI
+    "semi-spacing": ["error", {"before": false, "after": true}], // enforce spacing before and after semicolons
+    "space-before-blocks": ["warn", "always"], // require or disallow space before blocks (off by default)
+    "space-before-function-paren": ["warn", {"anonymous": "always", "named": "never"}], // require or disallow space before function opening parenthesis (off by default)
+    "object-curly-spacing": ["warn", "always"],
+    "computed-property-spacing": ["warn", "never"],
+    "array-bracket-spacing": ["warn", "never"],
+    "space-in-parens": ["warn", "never"], // require or disallow spaces inside parentheses (off by default)
+    "space-infix-ops": "warn", // require spaces around operators
+    "space-unary-ops": "warn", // Require or disallow spaces before/after unary operators (words on by default, nonwords off by default)
+    "spaced-comment": ["warn", "always", {"exceptions": ["*"]}], // require or disallow a space immediately following the // or /* in a comment
+
+    /* React */
+    "react/display-name": "warn", // Prevent missing displayName in a React component definition
+    "react/jsx-wrap-multilines": "error", // Prevent missing parentheses around multilines JSX
+    "react/no-did-mount-set-state": "error", // Prevent usage of setState in componentDidMount
+    "react/no-did-update-set-state": "error", // Prevent usage of setState in componentDidUpdate
+    "react/self-closing-comp": "warn", // Prevent extra closing tags for components without children
+
+    /* Import */
+    "import/named": "error"
+  }
+}

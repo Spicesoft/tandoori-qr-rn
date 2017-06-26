@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import moment from "moment";
-import PushNotification from 'react-native-push-notification';
+import PushNotification from "react-native-push-notification";
 import {
     Alert,
     View
@@ -87,7 +87,7 @@ class ServiceWithoutRequest extends Component {
             message: "Your reservation is about to expire...",
             date: moment(range.to_datetime).subtract(5, "minutes").toDate(),
             // use this line to debug notifications (notif = now + 20 seconds)
-            //date: moment().add(20, "s").toDate(),
+            // date: moment().add(20, "s").toDate(),
             serviceId: this.props.service.pk,
             reservationEnd: range.to_datetime.format()
         });
@@ -152,32 +152,32 @@ class ServiceWithoutRequest extends Component {
                     </CardItem>
                 </Card>
             );
-        } else {
-            return (
-                <Card>
-                    <CardItem>
-                        <H3>Book the service</H3>
-                    </CardItem>
-                    <CardItem>
-                        <View style={{ flex: 1 }}>
-                            {this.props.ranges.map(range =>
-                                <Button
-                                    block
-                                    style={{ margin: 5 }}
-                                    key={range.to_datetime.format()}
-                                    onPress={() =>
-                                        this.confirmReservation(range)}
-                                >
-                                    <Text>{`Until ${range.to_datetime.format(
-                                        "LT"
-                                    )}`}</Text>
-                                </Button>
-                            )}
-                        </View>
-                    </CardItem>
-                </Card>
-            );
         }
+        return (
+            <Card>
+                <CardItem>
+                    <H3>Book the service</H3>
+                </CardItem>
+                <CardItem>
+                    <View style={{ flex: 1 }}>
+                        {this.props.ranges.map(range =>
+                            (<Button
+                                block
+                                style={{ margin: 5 }}
+                                key={range.to_datetime.format()}
+                                onPress={() =>
+                                    this.confirmReservation(range)}
+                            >
+                                <Text>{`Until ${range.to_datetime.format(
+                                    "LT"
+                                )}`}</Text>
+                            </Button>)
+                        )}
+                    </View>
+                </CardItem>
+            </Card>
+        );
+
     }
 
     renderLoader() {
@@ -251,9 +251,9 @@ function insideOpeningHours(start, end, centerOpeningHours) {
         dayOfWeek = 6;
     }
 
-    let openingHours = undefined;
+    let openingHours;
     for (let i = 0; i < centerOpeningHours.length; i++) {
-        if (centerOpeningHours[i]["day"] == dayOfWeek) {
+        if (centerOpeningHours[i].day == dayOfWeek) {
             openingHours = centerOpeningHours[i];
             break;
         }
@@ -264,18 +264,19 @@ function insideOpeningHours(start, end, centerOpeningHours) {
     }
 
     // TODO take care of center timezone
-    opening = moment(openingHours["opening_time"], "HH:mm:ss");
-    closing = moment(openingHours["closing_time"], "HH:mm:ss");
+    opening = moment(openingHours.opening_time, "HH:mm:ss");
+    closing = moment(openingHours.closing_time, "HH:mm:ss");
     return opening <= start && end <= closing;
 }
 
-function extractRanges(availabilityRanges, openingHours, start=null) {
+function extractRanges(availabilityRanges, openingHours, start = null) {
     // used provided start time or nowFloored
     if (!start) {
         const nowFloored = moment();
         if (nowFloored.minutes() < 30) {
             nowFloored.startOf("hour");
-        } else {
+        }
+        else {
             nowFloored.startOf("hour").add(30, "minutes");
         }
         start = nowFloored;
@@ -307,7 +308,7 @@ const Service = withRequest(ServiceWithoutRequest, {
             API.getAvailabilityRangesForService(id)
         ]).then(([service, availabilityRanges]) => {
             return API.getCenterDetails(service.center_pk).then(center => {
-                const centerOpeningHours = center["opening_hours"];
+                const centerOpeningHours = center.opening_hours;
                 return {
                     service: service,
                     ranges: extractRanges(

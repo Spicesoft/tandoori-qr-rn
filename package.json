@@ -6,6 +6,7 @@
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "test": "jest",
     "prettier": "prettier ./*.js src/**/*.js --write --tab-width 4",
+    "lint": "eslint ./*.js src/",
     "android:build-release": "./scripts/build-android-release.sh",
     "android:uninstall": "adb uninstall com.qrcoworkio",
     "android:clean-install-dev": "npm run android:uninstall && react-native run-android",
@@ -25,8 +26,12 @@
     "react-navigation": "1.0.0-beta.11"
   },
   "devDependencies": {
+    "babel-eslint": "7.2.3",
     "babel-jest": "20.0.3",
     "babel-preset-react-native": "2.0.0",
+    "eslint": "4.1.1",
+    "eslint-plugin-import": "2.6.0",
+    "eslint-plugin-react": "7.1.0",
     "jest": "20.0.4",
     "react-test-renderer": "16.0.0-alpha.12"
   },

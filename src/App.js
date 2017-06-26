@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { StackNavigator, NavigationActions } from "react-navigation";
+import { StackNavigator } from "react-navigation";
 import { Container, Content, Text, Button } from "native-base";
 import PushNotification from "react-native-push-notification";
 import moment from "moment";
@@ -29,10 +29,10 @@ class App extends Component {
 
         PushNotification.configure({
             onNotification: (notification) => {
-                console.log( 'NOTIFICATION:', notification );
+                console.log("NOTIFICATION:", notification);
                 if (this.navigator) {
                     this.navigator.dispatch(createNavigateToServiceAction({
-                        id: notification.serviceId, 
+                        id: notification.serviceId,
                         endOfReservationToExtend: moment(notification.reservationEnd)
                     }));
                 }
@@ -53,7 +53,9 @@ class App extends Component {
             return (
                 <Container>
                     <LoggedApp
-                        ref={nav => {this.navigator = nav;}}
+                        ref={nav => {
+                            this.navigator = nav;
+                        }}
                         screenProps={{
                             onLogout: this.onLogout
                         }}

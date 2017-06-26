@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Alert, StyleSheet, Text, View } from "react-native";
+import { Alert, StyleSheet, View } from "react-native";
 import Camera from "react-native-camera";
 
 import createNavigateToServiceAction from "../../utils/createNavigateToServiceAction";
@@ -53,9 +53,9 @@ export default class QRScanner extends Component {
         const id = this.extractServiceIDFromURL(url);
         if (id) {
             return this.navigateToService(id);
-        } else {
-            this.showError();
         }
+        this.showError();
+
     };
 }
 

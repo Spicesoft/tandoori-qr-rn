@@ -14,7 +14,7 @@ const CLIENT_SECRET =
     "ernC9olZ0yeuOLwhH5wmpGXs1LoXhaXRdazDh1wSvrMzsGtNS7C8ahSTTreeDjSJMgAOMysAVruGIPam3rTye6iwytGFw3wAlI2tCXwh92HTQqhG2OAQfjZALCVDc5GM";
 
 let _requestID = 0;
-async function request(options, retryIf401=true) {
+async function request(options, retryIf401 = true) {
     let requestID = ++_requestID;
 
     console.log(`Request #${requestID}`, options.url, options);
@@ -59,7 +59,7 @@ async function tokenRequest(extraData) {
 
     for (let key in extraData) {
         data.append(key, extraData[key]);
-    }   
+    }
     console.log("Token request", extraData);
     // use fetch instead of request to let fetch decides the headers
     let response = await fetch(`${API_ROOT}/o/token/`, {
@@ -123,7 +123,8 @@ const API = {
             REFRESH_TOKEN = storedRefreshToken;
             try {
                 const details = await API.getAccountDetails();
-            } catch (e) {
+            }
+            catch (e) {
                 await API.logout();
                 return false;
             }
@@ -146,7 +147,7 @@ const API = {
     async login(username, password) {
         let tokenResponse = await tokenRequest({
             username, password, grant_type: "password"
-        })
+        });
         await handleTokenResponse(tokenResponse);
         const details = await API.getAccountDetails();
         console.log(details);
@@ -212,7 +213,8 @@ const API = {
             }
             if (moment(reservation.from_datetime) <= moment()) {
                 currentReservations.push(reservation);
-            } else {
+            }
+            else {
                 incomingReservations.push(reservation);
             }
         });
