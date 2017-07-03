@@ -89,7 +89,10 @@ class ServiceWithoutRequest extends Component {
             // use this line to debug notifications (notif = now + 20 seconds)
             // date: moment().add(20, "s").toDate(),
             serviceId: this.props.service.pk,
-            reservationEnd: range.to_datetime.format()
+            reservationEnd: range.to_datetime.format(),
+
+            // iOS fix: https://github.com/zo0r/react-native-push-notification/issues/426
+            number: 0
         });
 
         Toast.show({
